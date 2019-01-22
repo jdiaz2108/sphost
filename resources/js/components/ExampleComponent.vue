@@ -1,0 +1,342 @@
+<template>
+
+<form @submit.prevent="PSend" method="POST" class="col-12">
+    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <strong>Basic Form</strong> Elements
+                            </div>
+                            <div class="card-body card-block">
+                                
+                                <input type="hidden" name="_token" :value="csrf"> 
+
+                                <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label for="nombre" class="form-control-label">Fecha.</label></div>
+                                         <div class="col-12 col-md-9">
+                                            <v-dialog
+                                                ref="dialog"
+                                                v-model="modal"
+                                                :return-value.sync="cliente.fecha"
+                                                persistent
+                                                lazy
+                                                full-width
+                                                width="290px"
+                                              >
+                                                <v-text-field
+                                                  slot="activator"
+                                                  v-model="cliente.fecha"
+                                                  prepend-icon="event"
+                                                  readonly
+                                                ></v-text-field>
+                                                <v-date-picker v-model="cliente.fecha" color="blue-grey darken-2" scrollable>
+                                                  <v-spacer></v-spacer>
+                                                  <button type="button" class="btn btn-dark mx-2" @click="modal = false">Cancel</button>
+                                                  <button type="button" class="btn btn-success mx-2" @click="$refs.dialog.save(cliente.fecha)">OK</button>
+                                                </v-date-picker>
+                                              </v-dialog>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label for="nombre" class="form-control-label">Nombre del Cliente.</label></div>
+                                         <div class="col-12 col-md-9">
+                                            <input type="text" id="nombre" v-model="cliente.nombre" class="form-control" placeholder="Nombre del Cliente.">
+                                            <small class="form-text text-muted">Nombre del Cliente.</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label class=" form-control-label">Nit o CC.</label></div>
+                                        <div class="col col-md-9">
+                                            <v-radio-group v-model="row" row>
+                                              <v-radio label="Nit" value="radio-1"></v-radio>
+                                              <v-radio label="CC" value="radio-2"></v-radio>
+                                            </v-radio-group>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label for="nit" class="form-control-label">Numero Identificador:</label></div>
+                                         <div class="col-12 col-md-9">
+                                            <input type="text" name="nit" @keyup="ClienteCall(cliente.nit)" v-model="cliente.nit" class="form-control" placeholder="Nit o CC.">
+                                            <small class="form-text text-muted">Formato 999.999.999-9.</small>
+                                        </div>
+                                    </div>
+
+                        
+
+
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="telefono" class="form-control-label">Telefono - Celular:</label></div>
+                                         <div class="col-12 col-md-9">
+                                            <input type="text" id="telefono" v-model="cliente.telefono" class="form-control" placeholder="Telefono - Celular.">
+                                            <small class="form-text text-muted">Telefono o Celular del Cliente.</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label for="direccion" class="form-control-label">Dirección:</label></div>
+                                         <div class="col-12 col-md-9">
+                                            <input type="text" id="direccion" v-model="cliente.direccion" class="form-control" placeholder="Direccion.">
+                                            <small class="form-text text-muted">Direccion del Cliente.</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="ciudad" class="form-control-label">Ciudad:</label></div>
+                                         <div class="col-12 col-md-9">
+                                            <input type="text" id="ciudad" v-model="cliente.ciudad" class="form-control" placeholder="Ciudad.">
+                                            <small class="form-text text-muted">Ciudad ubicacion Cliente.</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col col-md-3"><label for="encargado" class="form-control-label">Encargado:</label></div>
+                                         <div class="col-12 col-md-9">
+                                            <input type="text" v-model="cliente.encargado" class="form-control" placeholder="Encargado.">
+                                            <small class="form-text text-muted">Encargado.</small>
+                                        </div>
+                                    </div>
+
+                                        <hr class="w-75 text-center py-3">
+
+                                     <div class="row form-group">
+                                        <div class="col col-md-3"></div>
+                                      <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                        <button v-if="newProducto.length > 0" type="submit" class="btn btn-lg btn-success">Crear</button>
+                                      </div>
+                                    </div>
+
+                            </div>
+                            <div class="card-footer">
+                                <div class="p-3"></div>
+                            </div>
+
+
+
+
+
+
+                        </div>
+                    </div>
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                    <input type="hidden" name="newProducto" :value="newProducto">
+                <div class="card card-default">
+                    <div class="card-header">Example Component {{ pruebafainal }}</div>
+
+                    <input v-model="pruebafainal" placeholder="edit me">
+                    <p>Message is: {{ pruebafainal }}</p>
+
+                    <div class="card-body">
+                        I'm an example component.
+
+                        <ul v-for="nowpro, key in newProducto">
+                            <li>{{ nowpro.id }}, {{ nowpro.nombre }}, {{ nowpro.valor }}, <input type="textarea" v-model="nowpro.descripcion"> <button class="btn btn-primary btn-xs prod-'+productos[i].id+'" type="button" @click="delProducto(key)">Agregar Producto</button></li>
+                            
+                        </ul>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button>
+
+<div class="modal fade bd-example-modal-lg " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Modal Heading</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_content">
+                        <table id="datatable-fixed-header" class="table table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">id</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Descripcion</th>
+                                    <th scope="col">Valor</th>
+                                    <th scope="col">Agregar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="producto, key in productos">
+                                    <th  scope="row">{{ key }}</th>
+                                    <td>{{ producto.nombre }}</td>
+                                    <td><input class="form-control" type="number" value="42" v-model="producto.qty" min="1"></td>
+                                    <td><p>{{ producto.descripcion}}</p></td>
+                                    <td>{{ producto.valor }}</td>
+                                    <td><button class="btn btn-primary btn-xs prod-'+productos[i].id+'" type="button" @click="addProducto(key)">Agregar Producto</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+        
+      </div>
+  </div>
+</div>
+
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="x_content">
+            <table id="datatable-fixed-header" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Nombre</th>
+                        <th>Cantidad</th>
+                        <th>Descripcion</th>
+                        <th>Valor</th>
+                        <th>Agregar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="nowpro, key in newProducto">
+                        <input type="hidden" :name="nowpro.id_producto" :value="nowpro">
+                        <td>{{ key }}{{ nowpro.id }}</td>
+                        <td>{{ nowpro.nombre }}</td>
+                        <td><input type="number" v-model.number="nowpro.qty"></td>
+                        <td>
+                            <div class="form-group">
+                                <textarea class="form-control" v-model="nowpro.descripcion" rows="5" id="comment"></textarea>
+                            </div>
+                        </td>
+                        <td><input type="number" v-model.number="nowpro.valor"></td>
+                        <td><button class="btn btn-danger btn-xs prod-'+productos[i].id+'" type="button" @click="delProducto(key)">Borrar Producto</button></td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+             <hr>
+                    <div class="jumbotron jumbotron-fluid"><pre>{{ $data }}</pre></div>
+
+
+
+                    </div>
+                </div>
+                    <button type="submit">enviar</button>
+               
+            </div>
+        </div>
+    </div>
+    </form>
+
+</template>
+
+<script>
+    import Vuetify from 'vuetify'
+    export default {
+        data() {
+            return {
+                column: null,
+        row: null,
+                  menu: false,
+                  modal: false,
+                  menu2: false,
+                csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                nombre: "nombre de prueba",
+                pruebafainal: "",
+                cliente: {
+                    id: "",
+                    nombre: "",
+                    fecha: new Date().toISOString().substr(0, 10),
+                },
+                newProducto: []
+            }
+        },
+        props: ['productos'],
+        methods: {
+            ClienteCall: function(id){
+                this.cliente = {
+                        nit: id,
+                    },
+                axios({
+                  method: 'get',
+                  url: 'clientes/'+ id,
+                })
+                .then(response => (this.cliente = response.data))
+                .then(function(res){
+                    console.log(res)
+                    //window.location = "/factura"
+                })
+                .catch(function(err){
+                    console.log(err)
+                })
+
+            },
+            PSend: function(){
+                axios({
+                  method: 'post',
+                  url: '/rayo',
+                  data: { 
+
+                    newProducto: this.newProducto,
+                    clientes: this.cliente
+
+                         }
+                })
+                .then(function(res){
+                    console.log(res)
+                    Swal({
+                      title: 'Error!',
+                      text: 'Do you want to continue',
+                      type: 'error',
+                      confirmButtonText: 'Cool'
+                    })
+                    //window.location = "/factura/"+ res.data.message
+                })
+                .catch(function(err){
+                    console.log(err)
+                })
+
+            },
+            addProducto1: function(id) {
+                
+                this.newProducto.push(this.productos[id]);
+                //alert(JSON.stringify(this.productos[id]));
+            },
+            addProducto: function(id) {
+                
+                this.newProducto.push({
+                        producto_id: this.productos[id].id,
+                        nombre: this.productos[id].nombre,
+                        valor: this.productos[id].valor,
+                        descripcion: this.productos[id].descripcion,
+                        qty: this.productos[id].qty,
+
+                    });
+                //alert(JSON.stringify(this.productos[id]));
+            },
+            delProducto: function(id) {
+                this.newProducto.splice(id, 1);
+            }
+        }
+    }
+</script>
