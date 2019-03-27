@@ -1,6 +1,6 @@
 <template>
-
 <form @submit.prevent="PSend" method="POST" class="col-12">
+    <div class="container-fluid">
     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
@@ -14,27 +14,36 @@
                                         <div class="col col-md-3">
                                             <label for="nombre" class="form-control-label">Fecha.</label></div>
                                          <div class="col-12 col-md-9">
-                                            <v-dialog
-                                                ref="dialog"
-                                                v-model="modal"
-                                                :return-value.sync="cliente.fecha"
-                                                persistent
-                                                lazy
-                                                full-width
-                                                width="290px"
-                                              >
-                                                <v-text-field
-                                                  slot="activator"
-                                                  v-model="cliente.fecha"
-                                                  prepend-icon="event"
-                                                  readonly
-                                                ></v-text-field>
-                                                <v-date-picker v-model="cliente.fecha" color="blue-grey darken-2" scrollable>
-                                                  <v-spacer></v-spacer>
-                                                  <button type="button" class="btn btn-dark mx-2" @click="modal = false">Cancel</button>
-                                                  <button type="button" class="btn btn-success mx-2" @click="$refs.dialog.save(cliente.fecha)">OK</button>
-                                                </v-date-picker>
-                                              </v-dialog>
+
+                                                  <v-dialog
+                                                    ref="dialog"
+                                                    v-model="modal"
+                                                    :return-value.sync="cliente.fecha"
+                                                    persistent
+                                                    lazy
+                                                    full-width
+                                                    dark
+                                                    width="290px"
+                                                    locale="es"
+                                                  >
+                                                    <template v-slot:activator="{ on }">
+                                                      <v-text-field
+                                                        v-model="cliente.fecha"
+                                                        label="Picker in dialog"
+                                                        prepend-icon="event"
+                                                        readonly
+                                                        v-on="on"
+                                                      ></v-text-field>
+                                                    </template>
+                                                    <v-date-picker v-model="cliente.fecha" scrollable>
+                                                      <v-spacer></v-spacer>
+                                                      <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
+                                                      <v-btn flat color="primary" @click="$refs.dialog.save(cliente.fecha)">OK</v-btn>
+                                                    </v-date-picker>
+                                                  </v-dialog>
+
+
+ 
                                         </div>
                                     </div>
 
@@ -246,6 +255,7 @@
             </div>
         </div>
     </div>
+    </div>
     </form>
 
 </template>
@@ -255,6 +265,7 @@
     export default {
         data() {
             return {
+
                 column: null,
         row: null,
                   menu: false,

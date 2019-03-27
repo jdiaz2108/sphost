@@ -1,5 +1,8 @@
-<aside id="left-panel" class="left-panel">
-        <nav class="navbar navbar-expand-sm navbar-default">
+
+    <div>
+      <l-leftpanel></l-leftpanel>
+</div>
+      {{--   <nav class="navbar navbar-expand-sm navbar-default">
             <div id="main-menu" class="main-menu collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active">
@@ -21,7 +24,7 @@
                             <li><i class="fa fa-file-word-o"></i><a href="ui-typgraphy.html">Typography</a></li>
                         </ul>
                     </li>
-                    {{-- Menu Clientes --}}
+                    
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-users"></i>Clientes</a>
                         <ul class="sub-menu children dropdown-menu">
@@ -29,7 +32,7 @@
                             <li><i class="fa fa-users"></i><a href="/clientes/create">Crear Cliente</a></li>
                         </ul>
                     </li>
-                    {{-- Fin Menu Clientes --}} 
+                
                     <li class="menu-item-has-children dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="menu-icon fa fa-table"></i>Tables</a>
                         <ul class="sub-menu children dropdown-menu">
@@ -84,5 +87,4 @@
                     </li>
                 </ul>
             </div><!-- /.navbar-collapse -->
-        </nav>
-    </aside>
+        </nav> --}}

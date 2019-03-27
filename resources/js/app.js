@@ -18,8 +18,9 @@ window.Vue = require('vue');
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
+Vue.component('l-navbar', require('./components/topbar.vue'));
+
+Vue.component('l-leftpanel', require('./components/leftpanel.vue'));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -28,5 +29,19 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
  */
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+	data() {
+    	return {
+    		drawer: true,
+    		isLoad: false
+    	}
+    },
+    created() {
+   		this.isLoad = true;
+   		console.log('creada');
+    },
+    mounted() {
+   		this.isLoad = true;
+   		console.log('montada');
+    }
 });

@@ -1,5 +1,6 @@
 <header id="header" class="header">
-            <div class="top-left">
+    <l-navbar></l-navbar>
+{{--             <div class="top-left">
                 <div class="navbar-header">
                     <a class="navbar-brand" href="./"><img src="/images/logointranet.jpg" alt="Logo" class="img-fluid d-inline-block" style="max-height: 40px"></a>
                     <a class="navbar-brand hidden" href="./"><img src="images/logo2.png" alt="Logo"></a>
@@ -108,5 +109,5 @@
                     </div>
 
                 </div>
-            </div>
+            </div> --}}
         </header>

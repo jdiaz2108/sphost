@@ -3,32 +3,7 @@
 @section('title', 'Listar Clientes - ')
 
 @section('content')
-<div class="breadcrumbs">
-            <div class="breadcrumbs-inner shadow rounded aqua-gradient">
-                <div class="row m-0">
-                    <div class="col-sm-4">
-                        <div class="page-header float-left bg-transparent">
-                            <div class="page-title text-white">
-                                <h1>Dashboard</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-8">
-                        <div class="page-header float-right bg-transparent text-white">
-                            <div class="page-title">
-                                <ol class="breadcrumb text-right bg-transparent text-white">
-                                    <li><a href="/" class="text-light">Inicio</a></li>
-                                    <li><a href="#" class="text-light">Forms</a></li>
-                                    <li class="active">Basic</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-<div class="content">
-            <div class="animated fadeIn">
+<div class="container-fluid">
                 <div class="row">
 
                     <div class="col-md-12">
@@ -97,9 +72,7 @@
 
 
                 </div>
-            </div><!-- .animated -->
-        </div>
-
+</div>
 
         @endsection
         @section('script')
