@@ -17,6 +17,7 @@ Route::get('/', function () {
     return view('app.index');
 });
 
+Route::get('/api/clientes', 'ClienteController@index');
 
 Route::post('/rayo', 'FacturaController@store');
 

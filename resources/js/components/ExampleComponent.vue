@@ -1,5 +1,6 @@
 <template>
-<form @submit.prevent="PSend" method="POST" class="col-12">
+    <div class="col-12">
+<form @submit.prevent="PSend" method="POST" class="col-12 form-group">
     <div class="container-fluid">
     <div class="col-lg-12">
                         <div class="card">
@@ -250,6 +251,7 @@
 
                     </div>
                 </div>
+                <button type="button" class="btn btn-primary" @click="AllClientes()">clientes</button>
                     <button type="submit">enviar</button>
                
             </div>
@@ -258,6 +260,76 @@
     </div>
     </form>
 
+
+    <v-dialog v-model="dialog" scrollable >
+      <template v-slot:activator="{ on }">
+        <v-btn color="primary" dark v-on="on" @click="AllClientes()">Open Dialog</v-btn>
+      </template>
+      <v-card>
+
+    <v-card-title>
+      Nutrition
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="search"
+        label="Search"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table
+      :headers="headers"
+      :items="clientes"
+      :search="search"
+    >
+      <template v-slot:items="props">
+        <td>{{ props.item.nombre }}</td>
+        <td class="text-xs-right">{{ props.item.nit }}</td>
+        <td class="text-xs-right">{{ props.item.direccion }}</td>
+        <td class="text-xs-right">{{ props.item.telefono }}</td>
+        <td class="text-xs-right">{{ props.item.ciudad }}</td>
+        <td class="text-xs-right">{{ props.item.correo }} <div class="btn btn-primary"> nea</div></td>
+      </template>
+      <v-alert v-slot:no-results :value="true" color="error" icon="warning">
+        Your search for "{{ search }}" found no results.
+      </v-alert>
+    </v-data-table>
+
+        <v-card-title>Select Country</v-card-title>
+        <v-divider></v-divider>
+        <v-card-text style="height: 300px;">
+          <v-radio-group v-model="dialogm1" column>
+            <v-radio v-for="clie, key in clientes" label="Bahamas, The" :value="clie.id"></v-radio>
+            <v-radio label="Bahrain" value="bahrain"></v-radio>
+            <v-radio label="Bangladesh" value="bangladesh"></v-radio>
+            <v-radio label="Barbados" value="barbados"></v-radio>
+            <v-radio label="Belarus" value="belarus"></v-radio>
+            <v-radio label="Belgium" value="belgium"></v-radio>
+            <v-radio label="Belize" value="belize"></v-radio>
+            <v-radio label="Benin" value="benin"></v-radio>
+            <v-radio label="Bhutan" value="bhutan"></v-radio>
+            <v-radio label="Bolivia" value="bolivia"></v-radio>
+            <v-radio label="Bosnia and Herzegovina" value="bosnia"></v-radio>
+            <v-radio label="Botswana" value="botswana"></v-radio>
+            <v-radio label="Brazil" value="brazil"></v-radio>
+            <v-radio label="Brunei" value="brunei"></v-radio>
+            <v-radio label="Bulgaria" value="bulgaria"></v-radio>
+            <v-radio label="Burkina Faso" value="burkina"></v-radio>
+            <v-radio label="Burma" value="burma"></v-radio>
+            <v-radio label="Burundi" value="burundi"></v-radio>
+          </v-radio-group>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
+          <v-btn color="blue darken-1" flat @click="dialog = false">Save</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+
+</div>
 </template>
 
 <script>
@@ -265,7 +337,16 @@
     export default {
         data() {
             return {
-
+                headers: [
+                    { text: 'Nombre', align: 'left', sortable: false, value: 'nombre' },
+                    { text: 'Nit o CC', align: 'right', value: 'nit' },
+                    { text: 'Direccion', align: 'right', value: 'direccion' },
+                    { text: 'Telefono', align: 'right', value: 'telefono' },
+                    { text: 'Protein (g)', align: 'right', value: 'protein' },
+                    { text: 'Iron (%)', align: 'right', value: 'iron' }
+        ],
+                dialog: false,
+clientes: null,
                 column: null,
         row: null,
                   menu: false,
@@ -293,6 +374,21 @@
                   url: 'clientes/'+ id,
                 })
                 .then(response => (this.cliente = response.data))
+                .then(function(res){
+                    console.log(res)
+                    //window.location = "/factura"
+                })
+                .catch(function(err){
+                    console.log(err)
+                })
+
+            },
+            AllClientes: function(id){
+                axios({
+                  method: 'get',
+                  url: 'clientes',
+                })
+                .then(response => (this.clientes = response.data))
                 .then(function(res){
                     console.log(res)
                     //window.location = "/factura"

@@ -14,10 +14,12 @@ class ClienteController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->ajax()){
-
-        } else {
         $clientes = Cliente::all();
+        if($request->ajax()){
+            return response()->json(
+                $clientes
+            , 200);
+        } else {
         return view('app.clientes.listar' ,compact('clientes'));
         }
     }
@@ -43,7 +45,8 @@ class ClienteController extends Controller
         $data = $request->all();
         $cliente = new Cliente($data);
         $cliente->save();
-        return $cliente;
+        
+        return redirect('clientes');
     }
 
     /**
