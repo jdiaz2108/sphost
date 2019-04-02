@@ -100569,6 +100569,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.log(err);
       });
     },
+    ClienteCreado: function ClienteCreado(idcliente) {
+      var results = this.clientes.filter(function (cliente) {
+        return cliente.id == idcliente;
+      });
+      var firstObj = results.length > 0 ? results[0] : null;
+      console.log(idcliente);
+      console.log(firstObj);
+      this.cliente = firstObj;
+    },
     addProducto1: function addProducto1(id) {
       this.newProducto.push(this.productos[id]); //alert(JSON.stringify(this.productos[id]));
     },
@@ -101645,9 +101654,18 @@ var render = function() {
                           _vm._v(" "),
                           _c("td", { staticClass: "text-xs-right" }, [
                             _vm._v(_vm._s(props.item.correo) + " "),
-                            _c("div", { staticClass: "btn btn-primary" }, [
-                              _vm._v(" nea")
-                            ])
+                            _c(
+                              "div",
+                              {
+                                staticClass: "btn btn-primary",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.ClienteCreado(props.item.id)
+                                  }
+                                }
+                              },
+                              [_vm._v(" nea")]
+                            )
                           ])
                         ]
                       }

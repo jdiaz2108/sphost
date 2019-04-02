@@ -289,7 +289,7 @@
         <td class="text-xs-right">{{ props.item.direccion }}</td>
         <td class="text-xs-right">{{ props.item.telefono }}</td>
         <td class="text-xs-right">{{ props.item.ciudad }}</td>
-        <td class="text-xs-right">{{ props.item.correo }} <div class="btn btn-primary"> nea</div></td>
+        <td class="text-xs-right">{{ props.item.correo }} <div class="btn btn-primary" @click="ClienteCreado(props.item.id)"> nea</div></td>
       </template>
       <v-alert v-slot:no-results :value="true" color="error" icon="warning">
         Your search for "{{ search }}" found no results.
@@ -423,6 +423,13 @@ clientes: null,
                     console.log(err)
                 })
 
+            },
+            ClienteCreado: function(idcliente) {
+                var results = this.clientes.filter(function (cliente) { return cliente.id == idcliente; });
+                var firstObj = (results.length > 0) ? results[0] : null;
+                console.log(idcliente);
+                console.log(firstObj);
+                this.cliente = firstObj;
             },
             addProducto1: function(id) {
                 
