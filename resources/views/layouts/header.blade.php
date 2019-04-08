@@ -101,13 +101,14 @@
                                         <i class="fa fa-power-off"></i>Logout
                                     </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
+                                    
 
                         </div>
                     </div>
 
                 </div>
             </div> --}}
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
         </header>

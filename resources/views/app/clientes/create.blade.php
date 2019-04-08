@@ -70,7 +70,7 @@
                                         <div class="col col-md-3">{!! Form::label('nit', 'Numero Identificador:' , ['class' => 'form-control-label']) !!}</div>
                                          <div class="col-12 col-md-9">
                                             {!! Form::text('nit', null , ['class' => 'form-control' , 'required' => 'required', 'placeholder' => 'Nit o CC.']) !!}
-                                            <small class="form-text text-muted">Formato 999.999.999-9.</small>
+                                            <small class="form-text text-muted">Ingresar número Nit o CC.</small>
                                         </div>
                                     </div>
 
@@ -111,7 +111,8 @@
                                      <div class="row form-group">
                                         <div class="col col-md-3"></div>
                                       <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
-                                      {!! Form::submit('Crear', ['class' => 'btn btn-lg btn-success']) !!}
+                                      {!! Form::button('<i class="fa fa-floppy-o"></i> Guardar', ['type' => 'submit', 'class' => 'btn btn-lg btn-success']) !!}
+                                       <a href="/clientes" class="btn btn-light border-secondary btn-lg"><i class="fa fa-times-circle"></i> Cancelar</a>
                                       </div>
                                     </div>
 
@@ -133,9 +134,9 @@
     @endsection
 
             @section('script')
-<script>
+{{-- <script>
     $(document).ready( function () {
         $("#nit").inputmask("99[9][9].999.999-9");
     } );
-    </script>
+    </script> --}}
 @endsection

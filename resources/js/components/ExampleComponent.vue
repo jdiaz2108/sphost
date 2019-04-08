@@ -5,7 +5,53 @@
     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <strong>Basic Form</strong> Elements
+                                
+
+
+    <v-dialog v-model="dialog" scrollable >
+      <template v-slot:activator="{ on }">
+        <v-btn color="primary" dark v-on="on" @click="AllClientes()"><i class="fa fa-search mr-3"></i> Buscar Cliente</v-btn>
+      </template>
+      <v-card>
+
+    <v-card-title>
+      Buscar Cliente
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="search"
+        label="Buscar"
+        single-line
+        hide-details
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table
+      :headers="headers"
+      :items="clientes"
+      :search="search"
+    >
+      <template v-slot:items="props">
+        <td>{{ props.item.nombre }}</td>
+        <td class="text-xs-right">{{ props.item.nit }}</td>
+        <td class="text-xs-right">{{ props.item.direccion }}</td>
+        <td class="text-xs-right">{{ props.item.telefono }}</td>
+        <td class="text-xs-right">{{ props.item.ciudad }}</td>
+        <td class="text-xs-right">{{ props.item.correo }} <div class="btn btn-primary" @click="ClienteCreado(props.item.id)"><i class="fa fa-arrow-right"></i> Seleccionar</div></td>
+      </template>
+      <v-alert v-slot:no-results :value="true" color="error" icon="warning">
+        Tu busqueda por "{{ search }}" no dio resultados.
+      </v-alert>
+    </v-data-table>
+
+
+        <v-card-actions>
+          <v-btn color="blue-grey lighten-4" @click="dialog = false"><i class="fa fa-times-circle mr-3"></i> Cancelar</v-btn>
+                  </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+
+
                             </div>
                             <div class="card-body card-block">
                                 
@@ -19,7 +65,7 @@
                                                   <v-dialog
                                                     ref="dialog"
                                                     v-model="modal"
-                                                    :return-value.sync="cliente.fecha"
+                                                    :return-value.sync="date"
                                                     persistent
                                                     lazy
                                                     full-width
@@ -29,17 +75,17 @@
                                                   >
                                                     <template v-slot:activator="{ on }">
                                                       <v-text-field
-                                                        v-model="cliente.fecha"
+                                                        v-model="date"
                                                         label="Picker in dialog"
                                                         prepend-icon="event"
                                                         readonly
                                                         v-on="on"
                                                       ></v-text-field>
                                                     </template>
-                                                    <v-date-picker v-model="cliente.fecha" scrollable>
+                                                    <v-date-picker v-model="date" scrollable>
                                                       <v-spacer></v-spacer>
                                                       <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
-                                                      <v-btn flat color="primary" @click="$refs.dialog.save(cliente.fecha)">OK</v-btn>
+                                                      <v-btn flat color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
                                                     </v-date-picker>
                                                   </v-dialog>
 
@@ -261,72 +307,7 @@
     </form>
 
 
-    <v-dialog v-model="dialog" scrollable >
-      <template v-slot:activator="{ on }">
-        <v-btn color="primary" dark v-on="on" @click="AllClientes()">Open Dialog</v-btn>
-      </template>
-      <v-card>
 
-    <v-card-title>
-      Nutrition
-      <v-spacer></v-spacer>
-      <v-text-field
-        v-model="search"
-        append-icon="search"
-        label="Search"
-        single-line
-        hide-details
-      ></v-text-field>
-    </v-card-title>
-    <v-data-table
-      :headers="headers"
-      :items="clientes"
-      :search="search"
-    >
-      <template v-slot:items="props">
-        <td>{{ props.item.nombre }}</td>
-        <td class="text-xs-right">{{ props.item.nit }}</td>
-        <td class="text-xs-right">{{ props.item.direccion }}</td>
-        <td class="text-xs-right">{{ props.item.telefono }}</td>
-        <td class="text-xs-right">{{ props.item.ciudad }}</td>
-        <td class="text-xs-right">{{ props.item.correo }} <div class="btn btn-primary" @click="ClienteCreado(props.item.id)"> nea</div></td>
-      </template>
-      <v-alert v-slot:no-results :value="true" color="error" icon="warning">
-        Your search for "{{ search }}" found no results.
-      </v-alert>
-    </v-data-table>
-
-        <v-card-title>Select Country</v-card-title>
-        <v-divider></v-divider>
-        <v-card-text style="height: 300px;">
-          <v-radio-group v-model="dialogm1" column>
-            <v-radio v-for="clie, key in clientes" label="Bahamas, The" :value="clie.id"></v-radio>
-            <v-radio label="Bahrain" value="bahrain"></v-radio>
-            <v-radio label="Bangladesh" value="bangladesh"></v-radio>
-            <v-radio label="Barbados" value="barbados"></v-radio>
-            <v-radio label="Belarus" value="belarus"></v-radio>
-            <v-radio label="Belgium" value="belgium"></v-radio>
-            <v-radio label="Belize" value="belize"></v-radio>
-            <v-radio label="Benin" value="benin"></v-radio>
-            <v-radio label="Bhutan" value="bhutan"></v-radio>
-            <v-radio label="Bolivia" value="bolivia"></v-radio>
-            <v-radio label="Bosnia and Herzegovina" value="bosnia"></v-radio>
-            <v-radio label="Botswana" value="botswana"></v-radio>
-            <v-radio label="Brazil" value="brazil"></v-radio>
-            <v-radio label="Brunei" value="brunei"></v-radio>
-            <v-radio label="Bulgaria" value="bulgaria"></v-radio>
-            <v-radio label="Burkina Faso" value="burkina"></v-radio>
-            <v-radio label="Burma" value="burma"></v-radio>
-            <v-radio label="Burundi" value="burundi"></v-radio>
-          </v-radio-group>
-        </v-card-text>
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
-          <v-btn color="blue darken-1" flat @click="dialog = false">Save</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
 
 
 </div>
@@ -337,13 +318,14 @@
     export default {
         data() {
             return {
+                search: '',
                 headers: [
                     { text: 'Nombre', align: 'left', sortable: false, value: 'nombre' },
                     { text: 'Nit o CC', align: 'right', value: 'nit' },
                     { text: 'Direccion', align: 'right', value: 'direccion' },
                     { text: 'Telefono', align: 'right', value: 'telefono' },
-                    { text: 'Protein (g)', align: 'right', value: 'protein' },
-                    { text: 'Iron (%)', align: 'right', value: 'iron' }
+                    { text: 'Ciudad', align: 'right', value: 'ciudad' },
+                    { text: 'Seleccion', align: 'right', value: 'seleccion' }
         ],
                 dialog: false,
 clientes: null,
@@ -355,11 +337,8 @@ clientes: null,
                 csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                 nombre: "nombre de prueba",
                 pruebafainal: "",
-                cliente: {
-                    id: "",
-                    nombre: "",
-                    fecha: new Date().toISOString().substr(0, 10),
-                },
+                date: new Date().toISOString().substr(0, 10),
+                cliente: {},
                 newProducto: []
             }
         },
@@ -399,13 +378,15 @@ clientes: null,
 
             },
             PSend: function(){
+                this.cliente.date = this.date;
                 axios({
                   method: 'post',
-                  url: '/rayo',
+                  url: '/factura',
                   data: { 
 
                     newProducto: this.newProducto,
-                    clientes: this.cliente
+                    clientes: this.cliente,
+
 
                          }
                 })
@@ -430,6 +411,7 @@ clientes: null,
                 console.log(idcliente);
                 console.log(firstObj);
                 this.cliente = firstObj;
+                this.dialog = false;
             },
             addProducto1: function(id) {
                 

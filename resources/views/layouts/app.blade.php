@@ -100,7 +100,7 @@
     </style>
 </head>
 <body>
-    <div id="app">
+    <div style="background-color: rgba(0,0,0,0.5); min-height: 100vh" >    <div id="app">
 {{--         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -158,5 +158,7 @@
     </div>
     <script src="{{ asset('js/app.js') }}" defer></script>
     @yield('script')
+    </div>
+
 </body>
 </html>

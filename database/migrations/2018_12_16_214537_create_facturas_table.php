@@ -18,12 +18,13 @@ class CreateFacturasTable extends Migration
             $table->string('valor')->nullable();
             $table->string('nombre')->nullable();
             $table->string('encargado')->nullable();
-            $table->integer('ide')->nullable();;
-            $table->string('nit')->unique()->nullable();;
+            $table->integer('ide')->nullable();
+            $table->string('nit')->nullable();
             $table->string('direccion')->nullable();
             $table->string('telefono')->nullable();
             $table->string('ciudad')->nullable();
             $table->string('correo')->nullable();
+            $table->string('date')->nullable();
             $table->timestamps();
         });
     }
