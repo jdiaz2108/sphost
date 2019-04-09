@@ -1,5 +1,58 @@
 <template>
     <div class="col-12">
+
+
+
+
+
+
+
+    <v-dialog v-model="dialog2" scrollable >
+      <v-card>
+
+    <v-card-title>
+      Modal Heading
+      <v-spacer></v-spacer>
+<button type="button" class="close" @click="dialog2 = false">&times;</button>
+    </v-card-title>
+    
+<div class="px-5">
+                        <div class="x_panel">
+                            <div class="x_content">
+                            <table id="datatable-fixed-header" class="table table-hover table-bordered">
+                            <thead>
+                            <tr>
+                           
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Cantidad</th>
+                            <th scope="col">Descripcion</th>
+                            <th scope="col">Valor</th>
+                            <th scope="col">Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="producto, key in productos">
+                            <td>{{ producto.nombre }}</td>
+                            <td><input class="form-control" type="number" value="42" v-model="producto.qty" min="1"></td>
+                            <td><p>{{ producto.descripcion}}</p></td>
+                            <td>{{ producto.valor }}</td>
+                            <td><button class="btn btn-primary btn-xs prod-'+productos[i].id+'" type="button" @click="addProducto(key)"><i class="fa fa-plus"></i></button></td>
+                            </tr>
+                            </tbody>
+                            </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+        <v-card-actions>
+          <v-btn color="blue-grey lighten-4" @click="dialog2 = false"><i class="fa fa-times-circle mr-3"></i> Cancelar</v-btn>
+                  </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+
+
 <form @submit.prevent="PSend" method="POST" class="col-12 form-group">
     <div class="container-fluid">
     <div class="col-lg-12">
@@ -186,71 +239,11 @@
             <div class="col-12">
                     <input type="hidden" name="newProducto" :value="newProducto">
                 <div class="card card-default">
-                    <div class="card-header">Example Component {{ pruebafainal }}</div>
+                    <div class="card-header">Artículos</div>
 
-                    <input v-model="pruebafainal" placeholder="edit me">
-                    <p>Message is: {{ pruebafainal }}</p>
+
 
                     <div class="card-body">
-                        I'm an example component.
-
-                        <ul v-for="nowpro, key in newProducto">
-                            <li>{{ nowpro.id }}, {{ nowpro.nombre }}, {{ nowpro.valor }}, <input type="textarea" v-model="nowpro.descripcion"> <button class="btn btn-primary btn-xs prod-'+productos[i].id+'" type="button" @click="delProducto(key)">Agregar Producto</button></li>
-                            
-                        </ul>
-
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal</button>
-
-<div class="modal fade bd-example-modal-lg " tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Modal Heading</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        
-        <!-- Modal body -->
-        <div class="modal-body">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                    <div class="x_content">
-                        <table id="datatable-fixed-header" class="table table-hover table-bordered">
-                            <thead>
-                                <tr>
-                                    <th scope="col">id</th>
-                                    <th scope="col">Nombre</th>
-                                    <th scope="col">Cantidad</th>
-                                    <th scope="col">Descripcion</th>
-                                    <th scope="col">Valor</th>
-                                    <th scope="col">Agregar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="producto, key in productos">
-                                    <th  scope="row">{{ key }}</th>
-                                    <td>{{ producto.nombre }}</td>
-                                    <td><input class="form-control" type="number" value="42" v-model="producto.qty" min="1"></td>
-                                    <td><p>{{ producto.descripcion}}</p></td>
-                                    <td>{{ producto.valor }}</td>
-                                    <td><button class="btn btn-primary btn-xs prod-'+productos[i].id+'" type="button" @click="addProducto(key)">Agregar Producto</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-        </div>
-        
-      </div>
-  </div>
-</div>
 
 
 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -259,18 +252,18 @@
             <table id="datatable-fixed-header" class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>id</th>
+                        <th>Acciones</th>
                         <th>Nombre</th>
                         <th>Cantidad</th>
                         <th>Descripcion</th>
                         <th>Valor</th>
-                        <th>Agregar</th>
+                        <th>Total</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="nowpro, key in newProducto">
                         <input type="hidden" :name="nowpro.id_producto" :value="nowpro">
-                        <td>{{ key }}{{ nowpro.id }}</td>
+                        <td><button class="btn btn-sm btn-danger btn-xs prod-'+productos[i].id+'" type="button" @click="delProducto(key)"><i class="fa fa-trash-o"></i></button></td>
                         <td>{{ nowpro.nombre }}</td>
                         <td><input type="number" v-model.number="nowpro.qty"></td>
                         <td>
@@ -279,8 +272,36 @@
                             </div>
                         </td>
                         <td><input type="number" v-model.number="nowpro.valor"></td>
-                        <td><button class="btn btn-danger btn-xs prod-'+productos[i].id+'" type="button" @click="delProducto(key)">Borrar Producto</button></td>
+                        <td><input type="number" v-model.number="nowpro.valor"></td>
 
+                    </tr>
+                    <tr>
+                        <td>
+                            <button type="button" class="btn btn-success btn-sm" @click="dialog2 = true" data-toggle="modal" data-target=".bd-example-modal-lg">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </td>
+                        <td colspan="5"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                        <td>Subtotal:</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                        <td>Agregar Descuento:</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                        <td>Impuestos:</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                        <td>Total:</td>
+                        <td></td>
                     </tr>
                 </tbody>
             </table>
@@ -291,7 +312,7 @@
 
 
              <hr>
-                    <div class="jumbotron jumbotron-fluid"><pre>{{ $data }}</pre></div>
+                    <!-- <div class="jumbotron jumbotron-fluid"><pre>{{ $data }}</pre></div> -->
 
 
 
@@ -328,6 +349,7 @@
                     { text: 'Seleccion', align: 'right', value: 'seleccion' }
         ],
                 dialog: false,
+                dialog2: false,
 clientes: null,
                 column: null,
         row: null,
@@ -336,7 +358,6 @@ clientes: null,
                   menu2: false,
                 csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                 nombre: "nombre de prueba",
-                pruebafainal: "",
                 date: new Date().toISOString().substr(0, 10),
                 cliente: {},
                 newProducto: []
