@@ -16,7 +16,7 @@ window.Vue = require('vue');
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('create-factura', require('./components/facturacion/createFactura.vue'));
 
 Vue.component('l-navbar', require('./components/topbar.vue'));
 

@@ -1,70 +1,7 @@
 <template>
     <div class="col-12">
 
-
-
-
-
-
-
-    <v-dialog v-model="dialog2" scrollable >
-      <v-card>
-
-    <v-card-title>
-      Modal Heading
-      <v-spacer></v-spacer>
-<button type="button" class="close" @click="dialog2 = false">&times;</button>
-    </v-card-title>
-    
-<div class="px-5">
-                        <div class="x_panel">
-                            <div class="x_content">
-                            <table id="datatable-fixed-header" class="table table-hover table-bordered">
-                            <thead>
-                            <tr>
-                           
-                            <th scope="col">Nombre</th>
-                            <th scope="col">Cantidad</th>
-                            <th scope="col">Descripcion</th>
-                            <th scope="col">Valor</th>
-                            <th scope="col">Acciones</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="producto, key in productos">
-                            <td>{{ producto.nombre }}</td>
-                            <td><input class="form-control" type="number" value="42" v-model="producto.qty" min="1"></td>
-                            <td><p>{{ producto.descripcion}}</p></td>
-                            <td>{{ producto.valor }}</td>
-                            <td><button class="btn btn-primary btn-xs prod-'+productos[i].id+'" type="button" @click="addProducto(key)"><i class="fa fa-plus"></i></button></td>
-                            </tr>
-                            </tbody>
-                            </table>
-                            </div>
-                        </div>
-                    </div>
-
-
-        <v-card-actions>
-          <v-btn color="blue-grey lighten-4" @click="dialog2 = false"><i class="fa fa-times-circle mr-3"></i> Cancelar</v-btn>
-                  </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-
-
-<form @submit.prevent="PSend" method="POST" class="col-12 form-group">
-    <div class="container-fluid">
-    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-header">
-                                
-
-
-    <v-dialog v-model="dialog" scrollable >
-      <template v-slot:activator="{ on }">
-        <v-btn color="primary" dark v-on="on" @click="AllClientes()"><i class="fa fa-search mr-3"></i> Buscar Cliente</v-btn>
-      </template>
+    <v-dialog v-model="dialog" scrollable v-if="clientes">
       <v-card>
 
     <v-card-title>
@@ -89,7 +26,7 @@
         <td class="text-xs-right">{{ props.item.direccion }}</td>
         <td class="text-xs-right">{{ props.item.telefono }}</td>
         <td class="text-xs-right">{{ props.item.ciudad }}</td>
-        <td class="text-xs-right">{{ props.item.correo }} <div class="btn btn-primary" @click="ClienteCreado(props.item.id)"><i class="fa fa-arrow-right"></i> Seleccionar</div></td>
+        <td class="text-xs-right">{{ props.item.correo }} <div class="btn btn-primary" @click="ClienteCreado(props.index)"><i class="fa fa-arrow-right"></i> Seleccionar</div></td>
       </template>
       <v-alert v-slot:no-results :value="true" color="error" icon="warning">
         Tu busqueda por "{{ search }}" no dio resultados.
@@ -102,6 +39,64 @@
                   </v-card-actions>
       </v-card>
     </v-dialog>
+
+
+
+
+    <v-dialog v-model="dialog2" scrollable>
+        <v-card>
+            <v-card-title>
+                Seleccionar Productos
+                <v-spacer></v-spacer>
+                <button type="button" class="close" @click="dialog2 = false">&times;</button>
+            </v-card-title>
+
+            <div class="px-5">
+                <div class="x_panel">
+                    <div class="x_content">
+                        <table id="datatable-fixed-header" class="table table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Descripcion</th>
+                                    <th scope="col">Valor Unitario</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="producto, key in objetossss">
+                                    <td>{{ producto.nombre }}</td>
+                                    <td><input class="form-control" type="number" v-model.number="producto.qty" min="1" @change="producto.total = producto.valor * producto.qty"></td>
+                                    <td><p>{{ producto.descripcion}}</p></td>
+                                    <td>{{ producto.valor }}</td>
+                                    <td>{{ producto.total }}</td>
+                                    <td><button class="btn btn-primary btn-xs prod-'+productos[i].id+'" type="button" @click="addProducto(key)"><i class="fa fa-plus"></i></button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <v-card-actions>
+            <v-btn color="blue-grey lighten-4" @click="dialog2 = false"><i class="fa fa-times-circle mr-3"></i> Cancelar</v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
+
+
+
+<form @submit.prevent="PSend" method="POST" class="col-12 form-group">
+    <div class="container-fluid">
+    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <v-btn color="primary" dark @click="AllClientes(); dialog = true"><i class="fa fa-search mr-3"></i> Buscar Cliente</v-btn>
+
+
 
 
 
@@ -265,14 +260,14 @@
                         <input type="hidden" :name="nowpro.id_producto" :value="nowpro">
                         <td><button class="btn btn-sm btn-danger btn-xs prod-'+productos[i].id+'" type="button" @click="delProducto(key)"><i class="fa fa-trash-o"></i></button></td>
                         <td>{{ nowpro.nombre }}</td>
-                        <td><input type="number" v-model.number="nowpro.qty"></td>
+                        <td><input type="number" v-model.number="nowpro.qty" @change="nowpro.total = nowpro.valor * nowpro.qty; totals()"></td>
                         <td>
                             <div class="form-group">
                                 <textarea class="form-control" v-model="nowpro.descripcion" rows="5" id="comment"></textarea>
                             </div>
                         </td>
                         <td><input type="number" v-model.number="nowpro.valor"></td>
-                        <td><input type="number" v-model.number="nowpro.valor"></td>
+                        <td><input type="number" v-model.number="nowpro.total"></td>
 
                     </tr>
                     <tr>
@@ -286,7 +281,7 @@
                     <tr>
                         <td colspan="4"></td>
                         <td>Subtotal:</td>
-                        <td></td>
+                        <td><input type="text" v-model="subtotal" disabled=""></td>
                     </tr>
                     <tr>
                         <td colspan="4"></td>
@@ -301,7 +296,7 @@
                     <tr>
                         <td colspan="4"></td>
                         <td>Total:</td>
-                        <td></td>
+                        <td><input type="text" v-model="total" disabled=""></td>
                     </tr>
                 </tbody>
             </table>
@@ -328,9 +323,6 @@
     </form>
 
 
-
-
-
 </div>
 </template>
 
@@ -341,17 +333,23 @@
             return {
                 search: '',
                 headers: [
-                    { text: 'Nombre', align: 'left', sortable: false, value: 'nombre' },
+                    { text: 'Nombre', align: 'left', value: 'nombre' },
                     { text: 'Nit o CC', align: 'right', value: 'nit' },
                     { text: 'Direccion', align: 'right', value: 'direccion' },
                     { text: 'Telefono', align: 'right', value: 'telefono' },
                     { text: 'Ciudad', align: 'right', value: 'ciudad' },
                     { text: 'Seleccion', align: 'right', value: 'seleccion' }
         ],
+        subtotal: 0,
+        total: 0,
+        impuesto: 0,
+        descuento: 0,
                 dialog: false,
                 dialog2: false,
+                objetos: null,
 clientes: null,
                 column: null,
+                objetosss: null,
         row: null,
                   menu: false,
                   modal: false,
@@ -426,34 +424,59 @@ clientes: null,
                 })
 
             },
-            ClienteCreado: function(idcliente) {
-                var results = this.clientes.filter(function (cliente) { return cliente.id == idcliente; });
-                var firstObj = (results.length > 0) ? results[0] : null;
-                console.log(idcliente);
-                console.log(firstObj);
-                this.cliente = firstObj;
+            ClienteCreado: function(id) {
+
+                this.cliente = this.clientes[id];
                 this.dialog = false;
             },
             addProducto1: function(id) {
-                
+                this.productos[id].total = 0;
                 this.newProducto.push(this.productos[id]);
                 //alert(JSON.stringify(this.productos[id]));
             },
             addProducto: function(id) {
-                
+
+                this.dialog2 = false;
                 this.newProducto.push({
                         producto_id: this.productos[id].id,
                         nombre: this.productos[id].nombre,
                         valor: this.productos[id].valor,
                         descripcion: this.productos[id].descripcion,
                         qty: this.productos[id].qty,
-
+                        total: this.productos[id].total,
                     });
+
+                this.productos[id].qty = 1;
+                this.productos[id].total = this.productos[id].valor;
+                this.totals();
+
+
+
                 //alert(JSON.stringify(this.productos[id]));
             },
             delProducto: function(id) {
                 this.newProducto.splice(id, 1);
+            },
+            pruebatest: function() {
+                console.log('si llega')
+            },
+            totals: function() {
+                var s = 0;
+                for (var i = 0; i < this.newProducto.length; i++) {
+                    s = s + parseInt(this.newProducto[i].total)
+                }
+                this.subtotal = s;
             }
+        },
+        computed: {
+
+            objetossss: function () {
+                    for (var i = 0; i < this.productos.length; i++) {
+                        this.productos[i].total = this.productos[i].valor
+                    }
+                    return this.productos
+              }
+
         }
     }
 </script>

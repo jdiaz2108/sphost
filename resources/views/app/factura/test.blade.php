@@ -35,7 +35,7 @@
 
                 <div class="row">
 
-<example-component :productos="{{$productos}}"></example-component>
+<create-factura :productos="{{$productos}}"></create-factura>
 
             </div>
 
