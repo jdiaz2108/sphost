@@ -100462,7 +100462,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -100532,6 +100531,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         console.log(err);
       });
     },
+    alertini: function alertini(vari) {
+      console.log(vari);
+    },
     AllClientes: function AllClientes(id) {
       var _this2 = this;
 
@@ -100568,14 +100570,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     ClienteCreado: function ClienteCreado(id) {
-      this.cliente = this.clientes[id];
+      this.cliente = id;
       this.dialog = false;
     },
-    addProducto1: function addProducto1(id) {
-      this.productos[id].total = 0;
-      this.newProducto.push(this.productos[id]); //alert(JSON.stringify(this.productos[id]));
-    },
-    addProducto: function addProducto(id) {
+    addProducto: function addProducto(id, test) {
+      console.log(test);
       this.dialog2 = false;
       this.newProducto.push({
         producto_id: this.productos[id].id,
@@ -100687,7 +100686,7 @@ var render = function() {
                                 _c("td", [_vm._v(_vm._s(props.item.nombre))]),
                                 _vm._v(" "),
                                 _c("td", { staticClass: "text-xs-right" }, [
-                                  _vm._v(_vm._s(props.item.nit))
+                                  _vm._v(_vm._s(props.item.nit) + _vm._s(props))
                                 ]),
                                 _vm._v(" "),
                                 _c("td", { staticClass: "text-xs-right" }, [
@@ -100710,7 +100709,7 @@ var render = function() {
                                       staticClass: "btn btn-primary",
                                       on: {
                                         click: function($event) {
-                                          return _vm.ClienteCreado(props.index)
+                                          return _vm.ClienteCreado(props.item)
                                         }
                                       }
                                     },
@@ -100718,7 +100717,9 @@ var render = function() {
                                       _c("i", {
                                         staticClass: "fa fa-arrow-right"
                                       }),
-                                      _vm._v(" Seleccionar")
+                                      _vm._v(
+                                        " Seleccionar" + _vm._s(props.index)
+                                      )
                                     ]
                                   )
                                 ])
@@ -100728,7 +100729,7 @@ var render = function() {
                         ],
                         null,
                         false,
-                        3155971169
+                        289386554
                       )
                     },
                     [
@@ -100889,6 +100890,9 @@ var render = function() {
                                   attrs: { type: "number", min: "1" },
                                   domProps: { value: producto.qty },
                                   on: {
+                                    capture: function($event) {
+                                      return _vm.alertini(_vm.event)
+                                    },
                                     change: function($event) {
                                       producto.total =
                                         producto.valor * producto.qty
@@ -100916,18 +100920,42 @@ var render = function() {
                               _vm._v(" "),
                               _c("td", [_vm._v(_vm._s(producto.valor))]),
                               _vm._v(" "),
-                              _c("td", [_vm._v(_vm._s(producto.total))]),
+                              _c("td", [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: producto.total,
+                                      expression: "producto.total"
+                                    }
+                                  ],
+                                  attrs: { type: "text", disabled: "" },
+                                  domProps: { value: producto.total },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        producto,
+                                        "total",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]),
                               _vm._v(" "),
                               _c("td", [
                                 _c(
                                   "button",
                                   {
-                                    staticClass:
-                                      "btn btn-primary btn-xs prod-'+productos[i].id+'",
+                                    staticClass: "btn btn-primary btn-xs",
                                     attrs: { type: "button" },
                                     on: {
                                       click: function($event) {
-                                        return _vm.addProducto(key)
+                                        return _vm.addProducto(key, producto)
                                       }
                                     }
                                   },
@@ -101021,9 +101049,43 @@ var render = function() {
                   _c("div", { staticClass: "row form-group" }, [
                     _vm._m(0),
                     _vm._v(" "),
+                    _c("div", { staticClass: "col-9 col-md-4" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.cliente.nombre,
+                            expression: "cliente.nombre"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "nombre",
+                          placeholder: "Nombre del Cliente."
+                        },
+                        domProps: { value: _vm.cliente.nombre },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.cliente, "nombre", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("small", { staticClass: "form-text text-muted" }, [
+                        _vm._v("Nombre del Cliente.")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(1),
+                    _vm._v(" "),
                     _c(
                       "div",
-                      { staticClass: "col-12 col-md-9" },
+                      { staticClass: "col-9 col-md-4" },
                       [
                         _c(
                           "v-dialog",
@@ -101057,7 +101119,7 @@ var render = function() {
                                       _vm._g(
                                         {
                                           attrs: {
-                                            label: "Picker in dialog",
+                                            label: "Fecha actual",
                                             "prepend-icon": "event",
                                             readonly: ""
                                           },
@@ -101138,80 +101200,9 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "row form-group" }, [
-                    _vm._m(1),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-12 col-md-9" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.cliente.nombre,
-                            expression: "cliente.nombre"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "nombre",
-                          placeholder: "Nombre del Cliente."
-                        },
-                        domProps: { value: _vm.cliente.nombre },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(_vm.cliente, "nombre", $event.target.value)
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("small", { staticClass: "form-text text-muted" }, [
-                        _vm._v("Nombre del Cliente.")
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "row form-group" }, [
                     _vm._m(2),
                     _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "col col-md-9" },
-                      [
-                        _c(
-                          "v-radio-group",
-                          {
-                            attrs: { row: "" },
-                            model: {
-                              value: _vm.row,
-                              callback: function($$v) {
-                                _vm.row = $$v
-                              },
-                              expression: "row"
-                            }
-                          },
-                          [
-                            _c("v-radio", {
-                              attrs: { label: "Nit", value: "radio-1" }
-                            }),
-                            _vm._v(" "),
-                            _c("v-radio", {
-                              attrs: { label: "CC", value: "radio-2" }
-                            })
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "row form-group" }, [
-                    _vm._m(3),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "col-12 col-md-9" }, [
+                    _c("div", { staticClass: "col-9 col-md-4" }, [
                       _c("input", {
                         directives: [
                           {
@@ -101244,13 +101235,46 @@ var render = function() {
                       _c("small", { staticClass: "form-text text-muted" }, [
                         _vm._v("Formato 999.999.999-9.")
                       ])
-                    ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(3),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "col-9 col-md-4" },
+                      [
+                        _c(
+                          "v-radio-group",
+                          {
+                            attrs: { row: "" },
+                            model: {
+                              value: _vm.row,
+                              callback: function($$v) {
+                                _vm.row = $$v
+                              },
+                              expression: "row"
+                            }
+                          },
+                          [
+                            _c("v-radio", {
+                              attrs: { label: "Nit", value: "radio-1" }
+                            }),
+                            _vm._v(" "),
+                            _c("v-radio", {
+                              attrs: { label: "CC", value: "radio-2" }
+                            })
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "row form-group" }, [
                     _vm._m(4),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-12 col-md-9" }, [
+                    _c("div", { staticClass: "col-9 col-md-4" }, [
                       _c("input", {
                         directives: [
                           {
@@ -101284,13 +101308,11 @@ var render = function() {
                       _c("small", { staticClass: "form-text text-muted" }, [
                         _vm._v("Telefono o Celular del Cliente.")
                       ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "row form-group" }, [
+                    ]),
+                    _vm._v(" "),
                     _vm._m(5),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-12 col-md-9" }, [
+                    _c("div", { staticClass: "col-9 col-md-4" }, [
                       _c("input", {
                         directives: [
                           {
@@ -101330,7 +101352,7 @@ var render = function() {
                   _c("div", { staticClass: "row form-group" }, [
                     _vm._m(6),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-12 col-md-9" }, [
+                    _c("div", { staticClass: "col-9 col-md-4" }, [
                       _c("input", {
                         directives: [
                           {
@@ -101360,13 +101382,11 @@ var render = function() {
                       _c("small", { staticClass: "form-text text-muted" }, [
                         _vm._v("Ciudad ubicacion Cliente.")
                       ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "row form-group" }, [
+                    ]),
+                    _vm._v(" "),
                     _vm._m(7),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-12 col-md-9" }, [
+                    _c("div", { staticClass: "col-9 col-md-4" }, [
                       _c("input", {
                         directives: [
                           {
@@ -101399,10 +101419,8 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _c("hr", { staticClass: "w-75 text-center py-3" }),
-                  _vm._v(" "),
                   _c("div", { staticClass: "row form-group" }, [
-                    _c("div", { staticClass: "col col-md-3" }),
+                    _c("div", { staticClass: "col-3 col-md-3" }),
                     _vm._v(" "),
                     _c(
                       "div",
@@ -101449,304 +101467,329 @@ var render = function() {
                         { staticClass: "col-md-12 col-sm-12 col-xs-12" },
                         [
                           _c("div", { staticClass: "x_panel" }, [
-                            _c("div", { staticClass: "x_content" }, [
-                              _c(
-                                "table",
-                                {
-                                  staticClass:
-                                    "table table-striped table-bordered",
-                                  attrs: { id: "datatable-fixed-header" }
-                                },
-                                [
-                                  _vm._m(9),
-                                  _vm._v(" "),
-                                  _c(
-                                    "tbody",
-                                    [
-                                      _vm._l(_vm.newProducto, function(
-                                        nowpro,
-                                        key
-                                      ) {
-                                        return _c("tr", [
-                                          _c("input", {
-                                            attrs: {
-                                              type: "hidden",
-                                              name: nowpro.id_producto
-                                            },
-                                            domProps: { value: nowpro }
-                                          }),
-                                          _vm._v(" "),
+                            _c(
+                              "div",
+                              { staticClass: "x_content table-responsive-md" },
+                              [
+                                _c(
+                                  "table",
+                                  {
+                                    staticClass:
+                                      "table table-striped table-bordered",
+                                    attrs: { id: "datatable-fixed-header" }
+                                  },
+                                  [
+                                    _vm._m(9),
+                                    _vm._v(" "),
+                                    _c(
+                                      "tbody",
+                                      [
+                                        _vm._l(_vm.newProducto, function(
+                                          nowpro,
+                                          key
+                                        ) {
+                                          return _c("tr", [
+                                            _c("input", {
+                                              attrs: {
+                                                type: "hidden",
+                                                name: nowpro.id_producto
+                                              },
+                                              domProps: { value: nowpro }
+                                            }),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "btn btn-sm btn-danger btn-xs prod-'+productos[i].id+'",
+                                                  attrs: { type: "button" },
+                                                  on: {
+                                                    click: function($event) {
+                                                      return _vm.delProducto(
+                                                        key
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _c("i", {
+                                                    staticClass: "fa fa-trash-o"
+                                                  })
+                                                ]
+                                              )
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _vm._v(_vm._s(nowpro.nombre))
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model.number",
+                                                    value: nowpro.qty,
+                                                    expression: "nowpro.qty",
+                                                    modifiers: { number: true }
+                                                  }
+                                                ],
+                                                attrs: { type: "number" },
+                                                domProps: { value: nowpro.qty },
+                                                on: {
+                                                  change: function($event) {
+                                                    nowpro.total =
+                                                      nowpro.valor * nowpro.qty
+                                                    _vm.totals()
+                                                  },
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      nowpro,
+                                                      "qty",
+                                                      _vm._n(
+                                                        $event.target.value
+                                                      )
+                                                    )
+                                                  },
+                                                  blur: function($event) {
+                                                    return _vm.$forceUpdate()
+                                                  }
+                                                }
+                                              })
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _c(
+                                                "div",
+                                                { staticClass: "form-group" },
+                                                [
+                                                  _c("textarea", {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value:
+                                                          nowpro.descripcion,
+                                                        expression:
+                                                          "nowpro.descripcion"
+                                                      }
+                                                    ],
+                                                    staticClass: "form-control",
+                                                    attrs: {
+                                                      rows: "5",
+                                                      id: "comment"
+                                                    },
+                                                    domProps: {
+                                                      value: nowpro.descripcion
+                                                    },
+                                                    on: {
+                                                      input: function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.$set(
+                                                          nowpro,
+                                                          "descripcion",
+                                                          $event.target.value
+                                                        )
+                                                      }
+                                                    }
+                                                  })
+                                                ]
+                                              )
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model.number",
+                                                    value: nowpro.valor,
+                                                    expression: "nowpro.valor",
+                                                    modifiers: { number: true }
+                                                  }
+                                                ],
+                                                attrs: { type: "number" },
+                                                domProps: {
+                                                  value: nowpro.valor
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      nowpro,
+                                                      "valor",
+                                                      _vm._n(
+                                                        $event.target.value
+                                                      )
+                                                    )
+                                                  },
+                                                  blur: function($event) {
+                                                    return _vm.$forceUpdate()
+                                                  }
+                                                }
+                                              })
+                                            ]),
+                                            _vm._v(" "),
+                                            _c("td", [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model.number",
+                                                    value: nowpro.total,
+                                                    expression: "nowpro.total",
+                                                    modifiers: { number: true }
+                                                  }
+                                                ],
+                                                attrs: { type: "number" },
+                                                domProps: {
+                                                  value: nowpro.total
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      nowpro,
+                                                      "total",
+                                                      _vm._n(
+                                                        $event.target.value
+                                                      )
+                                                    )
+                                                  },
+                                                  blur: function($event) {
+                                                    return _vm.$forceUpdate()
+                                                  }
+                                                }
+                                              })
+                                            ])
+                                          ])
+                                        }),
+                                        _vm._v(" "),
+                                        _c("tr", [
                                           _c("td", [
                                             _c(
                                               "button",
                                               {
                                                 staticClass:
-                                                  "btn btn-sm btn-danger btn-xs prod-'+productos[i].id+'",
-                                                attrs: { type: "button" },
+                                                  "btn btn-success btn-sm",
+                                                attrs: {
+                                                  type: "button",
+                                                  "data-toggle": "modal",
+                                                  "data-target":
+                                                    ".bd-example-modal-lg"
+                                                },
                                                 on: {
                                                   click: function($event) {
-                                                    return _vm.delProducto(key)
+                                                    _vm.dialog2 = true
                                                   }
                                                 }
                                               },
                                               [
                                                 _c("i", {
-                                                  staticClass: "fa fa-trash-o"
+                                                  staticClass: "fa fa-plus"
                                                 })
                                               ]
                                             )
                                           ]),
                                           _vm._v(" "),
-                                          _c("td", [
-                                            _vm._v(_vm._s(nowpro.nombre))
-                                          ]),
+                                          _c("td", { attrs: { colspan: "5" } })
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", { attrs: { colspan: "4" } }),
+                                          _vm._v(" "),
+                                          _c("td", [_vm._v("Subtotal:")]),
                                           _vm._v(" "),
                                           _c("td", [
                                             _c("input", {
                                               directives: [
                                                 {
                                                   name: "model",
-                                                  rawName: "v-model.number",
-                                                  value: nowpro.qty,
-                                                  expression: "nowpro.qty",
-                                                  modifiers: { number: true }
+                                                  rawName: "v-model",
+                                                  value: _vm.subtotal,
+                                                  expression: "subtotal"
                                                 }
                                               ],
-                                              attrs: { type: "number" },
-                                              domProps: { value: nowpro.qty },
+                                              attrs: {
+                                                type: "text",
+                                                disabled: ""
+                                              },
+                                              domProps: { value: _vm.subtotal },
                                               on: {
-                                                change: function($event) {
-                                                  nowpro.total =
-                                                    nowpro.valor * nowpro.qty
-                                                  _vm.totals()
-                                                },
                                                 input: function($event) {
                                                   if ($event.target.composing) {
                                                     return
                                                   }
-                                                  _vm.$set(
-                                                    nowpro,
-                                                    "qty",
-                                                    _vm._n($event.target.value)
-                                                  )
-                                                },
-                                                blur: function($event) {
-                                                  return _vm.$forceUpdate()
+                                                  _vm.subtotal =
+                                                    $event.target.value
                                                 }
                                               }
                                             })
-                                          ]),
+                                          ])
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm._m(10),
+                                        _vm._v(" "),
+                                        _vm._m(11),
+                                        _vm._v(" "),
+                                        _c("tr", [
+                                          _c("td", { attrs: { colspan: "4" } }),
                                           _vm._v(" "),
-                                          _c("td", [
-                                            _c(
-                                              "div",
-                                              { staticClass: "form-group" },
-                                              [
-                                                _c("textarea", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: nowpro.descripcion,
-                                                      expression:
-                                                        "nowpro.descripcion"
-                                                    }
-                                                  ],
-                                                  staticClass: "form-control",
-                                                  attrs: {
-                                                    rows: "5",
-                                                    id: "comment"
-                                                  },
-                                                  domProps: {
-                                                    value: nowpro.descripcion
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        nowpro,
-                                                        "descripcion",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ]
-                                            )
-                                          ]),
+                                          _c("td", [_vm._v("Total:")]),
                                           _vm._v(" "),
                                           _c("td", [
                                             _c("input", {
                                               directives: [
                                                 {
                                                   name: "model",
-                                                  rawName: "v-model.number",
-                                                  value: nowpro.valor,
-                                                  expression: "nowpro.valor",
-                                                  modifiers: { number: true }
+                                                  rawName: "v-model",
+                                                  value: _vm.total,
+                                                  expression: "total"
                                                 }
                                               ],
-                                              attrs: { type: "number" },
-                                              domProps: { value: nowpro.valor },
+                                              attrs: {
+                                                type: "text",
+                                                disabled: ""
+                                              },
+                                              domProps: { value: _vm.total },
                                               on: {
                                                 input: function($event) {
                                                   if ($event.target.composing) {
                                                     return
                                                   }
-                                                  _vm.$set(
-                                                    nowpro,
-                                                    "valor",
-                                                    _vm._n($event.target.value)
-                                                  )
-                                                },
-                                                blur: function($event) {
-                                                  return _vm.$forceUpdate()
-                                                }
-                                              }
-                                            })
-                                          ]),
-                                          _vm._v(" "),
-                                          _c("td", [
-                                            _c("input", {
-                                              directives: [
-                                                {
-                                                  name: "model",
-                                                  rawName: "v-model.number",
-                                                  value: nowpro.total,
-                                                  expression: "nowpro.total",
-                                                  modifiers: { number: true }
-                                                }
-                                              ],
-                                              attrs: { type: "number" },
-                                              domProps: { value: nowpro.total },
-                                              on: {
-                                                input: function($event) {
-                                                  if ($event.target.composing) {
-                                                    return
-                                                  }
-                                                  _vm.$set(
-                                                    nowpro,
-                                                    "total",
-                                                    _vm._n($event.target.value)
-                                                  )
-                                                },
-                                                blur: function($event) {
-                                                  return _vm.$forceUpdate()
+                                                  _vm.total =
+                                                    $event.target.value
                                                 }
                                               }
                                             })
                                           ])
                                         ])
-                                      }),
-                                      _vm._v(" "),
-                                      _c("tr", [
-                                        _c("td", [
-                                          _c(
-                                            "button",
-                                            {
-                                              staticClass:
-                                                "btn btn-success btn-sm",
-                                              attrs: {
-                                                type: "button",
-                                                "data-toggle": "modal",
-                                                "data-target":
-                                                  ".bd-example-modal-lg"
-                                              },
-                                              on: {
-                                                click: function($event) {
-                                                  _vm.dialog2 = true
-                                                }
-                                              }
-                                            },
-                                            [
-                                              _c("i", {
-                                                staticClass: "fa fa-plus"
-                                              })
-                                            ]
-                                          )
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("td", { attrs: { colspan: "5" } })
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("tr", [
-                                        _c("td", { attrs: { colspan: "4" } }),
-                                        _vm._v(" "),
-                                        _c("td", [_vm._v("Subtotal:")]),
-                                        _vm._v(" "),
-                                        _c("td", [
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.subtotal,
-                                                expression: "subtotal"
-                                              }
-                                            ],
-                                            attrs: {
-                                              type: "text",
-                                              disabled: ""
-                                            },
-                                            domProps: { value: _vm.subtotal },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.subtotal =
-                                                  $event.target.value
-                                              }
-                                            }
-                                          })
-                                        ])
-                                      ]),
-                                      _vm._v(" "),
-                                      _vm._m(10),
-                                      _vm._v(" "),
-                                      _vm._m(11),
-                                      _vm._v(" "),
-                                      _c("tr", [
-                                        _c("td", { attrs: { colspan: "4" } }),
-                                        _vm._v(" "),
-                                        _c("td", [_vm._v("Total:")]),
-                                        _vm._v(" "),
-                                        _c("td", [
-                                          _c("input", {
-                                            directives: [
-                                              {
-                                                name: "model",
-                                                rawName: "v-model",
-                                                value: _vm.total,
-                                                expression: "total"
-                                              }
-                                            ],
-                                            attrs: {
-                                              type: "text",
-                                              disabled: ""
-                                            },
-                                            domProps: { value: _vm.total },
-                                            on: {
-                                              input: function($event) {
-                                                if ($event.target.composing) {
-                                                  return
-                                                }
-                                                _vm.total = $event.target.value
-                                              }
-                                            }
-                                          })
-                                        ])
-                                      ])
-                                    ],
-                                    2
-                                  )
-                                ]
-                              )
-                            ])
+                                      ],
+                                      2
+                                    )
+                                  ]
+                                )
+                              ]
+                            )
                           ])
                         ]
                       ),
@@ -101787,19 +101830,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col col-md-3" }, [
-      _c(
-        "label",
-        { staticClass: "form-control-label", attrs: { for: "nombre" } },
-        [_vm._v("Fecha.")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col col-md-3" }, [
+    return _c("div", { staticClass: "col-3 col-md-2" }, [
       _c(
         "label",
         { staticClass: "form-control-label", attrs: { for: "nombre" } },
@@ -101811,15 +101842,19 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col col-md-3" }, [
-      _c("label", { staticClass: " form-control-label" }, [_vm._v("Nit o CC.")])
+    return _c("div", { staticClass: "col-3 col-md-2" }, [
+      _c(
+        "label",
+        { staticClass: "form-control-label", attrs: { for: "nombre" } },
+        [_vm._v("Fecha.")]
+      )
     ])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col col-md-3" }, [
+    return _c("div", { staticClass: "col-3 col-md-2" }, [
       _c(
         "label",
         { staticClass: "form-control-label", attrs: { for: "nit" } },
@@ -101831,7 +101866,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col col-md-3" }, [
+    return _c("div", { staticClass: "col-3 col-md-2" }, [
+      _c("label", { staticClass: " form-control-label" }, [_vm._v("Nit o CC.")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-3 col-md-2" }, [
       _c(
         "label",
         { staticClass: "form-control-label", attrs: { for: "telefono" } },
@@ -101843,7 +101886,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col col-md-3" }, [
+    return _c("div", { staticClass: "col-3 col-md-2" }, [
       _c(
         "label",
         { staticClass: "form-control-label", attrs: { for: "direccion" } },
@@ -101855,7 +101898,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col col-md-3" }, [
+    return _c("div", { staticClass: "col-3 col-md-2" }, [
       _c(
         "label",
         { staticClass: "form-control-label", attrs: { for: "ciudad" } },
@@ -101867,7 +101910,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "col col-md-3" }, [
+    return _c("div", { staticClass: "col-3 col-md-2" }, [
       _c(
         "label",
         { staticClass: "form-control-label", attrs: { for: "encargado" } },

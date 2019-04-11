@@ -22,11 +22,11 @@
     >
       <template v-slot:items="props">
         <td>{{ props.item.nombre }}</td>
-        <td class="text-xs-right">{{ props.item.nit }}</td>
+        <td class="text-xs-right">{{ props.item.nit }}{{props}}</td>
         <td class="text-xs-right">{{ props.item.direccion }}</td>
         <td class="text-xs-right">{{ props.item.telefono }}</td>
         <td class="text-xs-right">{{ props.item.ciudad }}</td>
-        <td class="text-xs-right">{{ props.item.correo }} <div class="btn btn-primary" @click="ClienteCreado(props.index)"><i class="fa fa-arrow-right"></i> Seleccionar</div></td>
+        <td class="text-xs-right">{{ props.item.correo }} <div class="btn btn-primary" @click="ClienteCreado(props.item)"><i class="fa fa-arrow-right"></i> Seleccionar{{props.index}}</div></td>
       </template>
       <v-alert v-slot:no-results :value="true" color="error" icon="warning">
         Tu busqueda por "{{ search }}" no dio resultados.
@@ -68,11 +68,11 @@
                             <tbody>
                                 <tr v-for="producto, key in objetossss">
                                     <td>{{ producto.nombre }}</td>
-                                    <td><input class="form-control" type="number" v-model.number="producto.qty" min="1" @change="producto.total = producto.valor * producto.qty"></td>
+                                    <td><input class="form-control" type="number" @capture="alertini(event)" v-model.number="producto.qty" min="1" @change="producto.total = producto.valor * producto.qty"></td>
                                     <td><p>{{ producto.descripcion}}</p></td>
                                     <td>{{ producto.valor }}</td>
-                                    <td>{{ producto.total }}</td>
-                                    <td><button class="btn btn-primary btn-xs prod-'+productos[i].id+'" type="button" @click="addProducto(key)"><i class="fa fa-plus"></i></button></td>
+                                    <td><input type="text" v-model="producto.total" disabled=""></td>
+                                    <td><button class="btn btn-primary btn-xs" type="button" @click="addProducto(key, producto)"><i class="fa fa-plus"></i></button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -106,9 +106,19 @@
                                 <input type="hidden" name="_token" :value="csrf"> 
 
                                 <div class="row form-group">
-                                        <div class="col col-md-3">
+
+                                        <div class="col-3 col-md-2">
+                                            <label for="nombre" class="form-control-label">Nombre del Cliente.</label></div>
+                                         <div class="col-9 col-md-4">
+                                            <input type="text" id="nombre" v-model="cliente.nombre" class="form-control" placeholder="Nombre del Cliente.">
+                                            <small class="form-text text-muted">Nombre del Cliente.</small>
+                                        </div>
+
+
+
+                                        <div class="col-3 col-md-2">
                                             <label for="nombre" class="form-control-label">Fecha.</label></div>
-                                         <div class="col-12 col-md-9">
+                                         <div class="col-9 col-md-4">
 
                                                   <v-dialog
                                                     ref="dialog"
@@ -123,8 +133,8 @@
                                                   >
                                                     <template v-slot:activator="{ on }">
                                                       <v-text-field
+                                                      label="Fecha actual"
                                                         v-model="date"
-                                                        label="Picker in dialog"
                                                         prepend-icon="event"
                                                         readonly
                                                         v-on="on"
@@ -140,77 +150,66 @@
 
  
                                         </div>
+
+
                                     </div>
 
-
                                     <div class="row form-group">
-                                        <div class="col col-md-3">
-                                            <label for="nombre" class="form-control-label">Nombre del Cliente.</label></div>
-                                         <div class="col-12 col-md-9">
-                                            <input type="text" id="nombre" v-model="cliente.nombre" class="form-control" placeholder="Nombre del Cliente.">
-                                            <small class="form-text text-muted">Nombre del Cliente.</small>
+
+                                        <div class="col-3 col-md-2">
+                                            <label for="nit" class="form-control-label">Numero Identificador:</label></div>
+                                         <div class="col-9 col-md-4">
+                                            <input type="text" name="nit" @keyup="ClienteCall(cliente.nit)" v-model="cliente.nit" class="form-control" placeholder="Nit o CC.">
+                                            <small class="form-text text-muted">Formato 999.999.999-9.</small>
                                         </div>
-                                    </div>
 
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label class=" form-control-label">Nit o CC.</label></div>
-                                        <div class="col col-md-9">
+
+                                        <div class="col-3 col-md-2"><label class=" form-control-label">Nit o CC.</label></div>
+                                        <div class="col-9 col-md-4">
                                             <v-radio-group v-model="row" row>
                                               <v-radio label="Nit" value="radio-1"></v-radio>
                                               <v-radio label="CC" value="radio-2"></v-radio>
                                             </v-radio-group>
                                         </div>
-                                    </div>
-                                    
-                                    <div class="row form-group">
-                                        <div class="col col-md-3">
-                                            <label for="nit" class="form-control-label">Numero Identificador:</label></div>
-                                         <div class="col-12 col-md-9">
-                                            <input type="text" name="nit" @keyup="ClienteCall(cliente.nit)" v-model="cliente.nit" class="form-control" placeholder="Nit o CC.">
-                                            <small class="form-text text-muted">Formato 999.999.999-9.</small>
-                                        </div>
+
+
                                     </div>
 
                         
 
 
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="telefono" class="form-control-label">Telefono - Celular:</label></div>
-                                         <div class="col-12 col-md-9">
+                                        <div class="col-3 col-md-2"><label for="telefono" class="form-control-label">Telefono - Celular:</label></div>
+                                         <div class="col-9 col-md-4">
                                             <input type="text" id="telefono" v-model="cliente.telefono" class="form-control" placeholder="Telefono - Celular.">
                                             <small class="form-text text-muted">Telefono o Celular del Cliente.</small>
                                         </div>
-                                    </div>
 
-                                    <div class="row form-group">
-                                        <div class="col col-md-3">
+                                        <div class="col-3 col-md-2">
                                             <label for="direccion" class="form-control-label">Dirección:</label></div>
-                                         <div class="col-12 col-md-9">
+                                         <div class="col-9 col-md-4">
                                             <input type="text" id="direccion" v-model="cliente.direccion" class="form-control" placeholder="Direccion.">
                                             <small class="form-text text-muted">Direccion del Cliente.</small>
                                         </div>
                                     </div>
 
                                     <div class="row form-group">
-                                        <div class="col col-md-3"><label for="ciudad" class="form-control-label">Ciudad:</label></div>
-                                         <div class="col-12 col-md-9">
+                                        <div class="col-3 col-md-2"><label for="ciudad" class="form-control-label">Ciudad:</label></div>
+                                         <div class="col-9 col-md-4">
                                             <input type="text" id="ciudad" v-model="cliente.ciudad" class="form-control" placeholder="Ciudad.">
                                             <small class="form-text text-muted">Ciudad ubicacion Cliente.</small>
                                         </div>
-                                    </div>
 
-                                    <div class="row form-group">
-                                        <div class="col col-md-3"><label for="encargado" class="form-control-label">Encargado:</label></div>
-                                         <div class="col-12 col-md-9">
+                                        <div class="col-3 col-md-2"><label for="encargado" class="form-control-label">Encargado:</label></div>
+                                         <div class="col-9 col-md-4">
                                             <input type="text" v-model="cliente.encargado" class="form-control" placeholder="Encargado.">
                                             <small class="form-text text-muted">Encargado.</small>
                                         </div>
                                     </div>
 
-                                        <hr class="w-75 text-center py-3">
 
                                      <div class="row form-group">
-                                        <div class="col col-md-3"></div>
+                                        <div class="col-3 col-md-3"></div>
                                       <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                                         <button v-if="newProducto.length > 0" type="submit" class="btn btn-lg btn-success">Crear</button>
                                       </div>
@@ -243,7 +242,7 @@
 
 <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
-        <div class="x_content">
+        <div class="x_content table-responsive-md">
             <table id="datatable-fixed-header" class="table table-striped table-bordered">
                 <thead>
                     <tr>
@@ -381,6 +380,9 @@ clientes: null,
                 })
 
             },
+            alertini: function(vari) {
+                console.log(vari)
+            },
             AllClientes: function(id){
                 axios({
                   method: 'get',
@@ -425,17 +427,11 @@ clientes: null,
 
             },
             ClienteCreado: function(id) {
-
-                this.cliente = this.clientes[id];
+                this.cliente = id;
                 this.dialog = false;
             },
-            addProducto1: function(id) {
-                this.productos[id].total = 0;
-                this.newProducto.push(this.productos[id]);
-                //alert(JSON.stringify(this.productos[id]));
-            },
-            addProducto: function(id) {
-
+            addProducto: function(id, test) {
+console.log(test);
                 this.dialog2 = false;
                 this.newProducto.push({
                         producto_id: this.productos[id].id,
