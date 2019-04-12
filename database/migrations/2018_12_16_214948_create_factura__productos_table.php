@@ -16,6 +16,7 @@ class CreateFacturaProductosTable extends Migration
         Schema::create('factura__productos', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('factura_id')->nullable();
+            $table->integer('producto_id')->nullable();
             $table->string('nombre')->nullable();
             $table->string('image1')->nullable();
             $table->string('image2')->nullable();

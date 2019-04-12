@@ -81,6 +81,16 @@
             ]
           },
           {
+            action: 'description',
+            title: 'Factura',
+            items: [
+              { title: 'Listar Facturas',
+                action: '/clientes' },
+                { title: 'Crear Factura',
+                action: '/factura' }
+            ]
+          },
+          {
             action: 'beenhere',
             title: 'Paz y Salvo',
             items: [

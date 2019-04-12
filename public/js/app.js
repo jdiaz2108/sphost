@@ -100460,8 +100460,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -100487,6 +100485,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         text: 'Ciudad',
         align: 'right',
         value: 'ciudad'
+      }, {
+        text: 'Correo',
+        align: 'right',
+        value: 'correo'
       }, {
         text: 'Seleccion',
         align: 'right',
@@ -100647,7 +100649,7 @@ var render = function() {
                   _c(
                     "v-card-title",
                     [
-                      _vm._v("\n      Buscar Cliente\n      "),
+                      _vm._v("\nBuscar Cliente\n"),
                       _c("v-spacer"),
                       _vm._v(" "),
                       _c("v-text-field", {
@@ -100686,7 +100688,7 @@ var render = function() {
                                 _c("td", [_vm._v(_vm._s(props.item.nombre))]),
                                 _vm._v(" "),
                                 _c("td", { staticClass: "text-xs-right" }, [
-                                  _vm._v(_vm._s(props.item.nit) + _vm._s(props))
+                                  _vm._v(_vm._s(props.item.nit))
                                 ]),
                                 _vm._v(" "),
                                 _c("td", { staticClass: "text-xs-right" }, [
@@ -100702,7 +100704,10 @@ var render = function() {
                                 ]),
                                 _vm._v(" "),
                                 _c("td", { staticClass: "text-xs-right" }, [
-                                  _vm._v(_vm._s(props.item.correo) + " "),
+                                  _vm._v(_vm._s(props.item.correo))
+                                ]),
+                                _vm._v(" "),
+                                _c("td", { staticClass: "text-xs-right" }, [
                                   _c(
                                     "div",
                                     {
@@ -100717,9 +100722,7 @@ var render = function() {
                                       _c("i", {
                                         staticClass: "fa fa-arrow-right"
                                       }),
-                                      _vm._v(
-                                        " Seleccionar" + _vm._s(props.index)
-                                      )
+                                      _vm._v(" Seleccionar")
                                     ]
                                   )
                                 ])
@@ -100729,7 +100732,7 @@ var render = function() {
                         ],
                         null,
                         false,
-                        289386554
+                        3760680658
                       )
                     },
                     [
@@ -100743,9 +100746,9 @@ var render = function() {
                               fn: function() {
                                 return [
                                   _vm._v(
-                                    '\n        Tu busqueda por "' +
+                                    '\nTu busqueda por "' +
                                       _vm._s(_vm.search) +
-                                      '" no dio resultados.\n      '
+                                      '" no dio resultados.\n'
                                   )
                                 ]
                               },
@@ -100754,7 +100757,7 @@ var render = function() {
                           ],
                           null,
                           false,
-                          1464900217
+                          1608625273
                         )
                       })
                     ],
@@ -100848,7 +100851,7 @@ var render = function() {
                             ]),
                             _vm._v(" "),
                             _c("th", { attrs: { scope: "col" } }, [
-                              _vm._v("Cantidad")
+                              _vm._v("Inventario")
                             ]),
                             _vm._v(" "),
                             _c("th", { attrs: { scope: "col" } }, [
@@ -100857,10 +100860,6 @@ var render = function() {
                             _vm._v(" "),
                             _c("th", { attrs: { scope: "col" } }, [
                               _vm._v("Valor Unitario")
-                            ]),
-                            _vm._v(" "),
-                            _c("th", { attrs: { scope: "col" } }, [
-                              _vm._v("Total")
                             ]),
                             _vm._v(" "),
                             _c("th", { attrs: { scope: "col" } }, [
@@ -100875,77 +100874,13 @@ var render = function() {
                             return _c("tr", [
                               _c("td", [_vm._v(_vm._s(producto.nombre))]),
                               _vm._v(" "),
-                              _c("td", [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model.number",
-                                      value: producto.qty,
-                                      expression: "producto.qty",
-                                      modifiers: { number: true }
-                                    }
-                                  ],
-                                  staticClass: "form-control",
-                                  attrs: { type: "number", min: "1" },
-                                  domProps: { value: producto.qty },
-                                  on: {
-                                    capture: function($event) {
-                                      return _vm.alertini(_vm.event)
-                                    },
-                                    change: function($event) {
-                                      producto.total =
-                                        producto.valor * producto.qty
-                                    },
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        producto,
-                                        "qty",
-                                        _vm._n($event.target.value)
-                                      )
-                                    },
-                                    blur: function($event) {
-                                      return _vm.$forceUpdate()
-                                    }
-                                  }
-                                })
-                              ]),
+                              _c("td", [_vm._v(_vm._s(producto.qty))]),
                               _vm._v(" "),
                               _c("td", [
                                 _c("p", [_vm._v(_vm._s(producto.descripcion))])
                               ]),
                               _vm._v(" "),
                               _c("td", [_vm._v(_vm._s(producto.valor))]),
-                              _vm._v(" "),
-                              _c("td", [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: producto.total,
-                                      expression: "producto.total"
-                                    }
-                                  ],
-                                  attrs: { type: "text", disabled: "" },
-                                  domProps: { value: producto.total },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        producto,
-                                        "total",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                })
-                              ]),
                               _vm._v(" "),
                               _c("td", [
                                 _c(
@@ -101049,43 +100984,9 @@ var render = function() {
                   _c("div", { staticClass: "row form-group" }, [
                     _vm._m(0),
                     _vm._v(" "),
-                    _c("div", { staticClass: "col-9 col-md-4" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.cliente.nombre,
-                            expression: "cliente.nombre"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        attrs: {
-                          type: "text",
-                          id: "nombre",
-                          placeholder: "Nombre del Cliente."
-                        },
-                        domProps: { value: _vm.cliente.nombre },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.$set(_vm.cliente, "nombre", $event.target.value)
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("small", { staticClass: "form-text text-muted" }, [
-                        _vm._v("Nombre del Cliente.")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _vm._m(1),
-                    _vm._v(" "),
                     _c(
                       "div",
-                      { staticClass: "col-9 col-md-4" },
+                      { staticClass: "col-9 col-md-9" },
                       [
                         _c(
                           "v-dialog",
@@ -101200,7 +101101,77 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "row form-group" }, [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-9 col-md-4" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.cliente.nombre,
+                            expression: "cliente.nombre"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "nombre",
+                          placeholder: "Nombre del Cliente."
+                        },
+                        domProps: { value: _vm.cliente.nombre },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.cliente, "nombre", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("small", { staticClass: "form-text text-muted" }, [
+                        _vm._v("Nombre del Cliente.")
+                      ])
+                    ]),
+                    _vm._v(" "),
                     _vm._m(2),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-9 col-md-4" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.cliente.correo,
+                            expression: "cliente.correo"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "mail",
+                          placeholder: "Correo Electrónico."
+                        },
+                        domProps: { value: _vm.cliente.correo },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(_vm.cliente, "correo", $event.target.value)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("small", { staticClass: "form-text text-muted" }, [
+                        _vm._v("Correo Electrónico.")
+                      ])
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "row form-group" }, [
+                    _vm._m(3),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-9 col-md-4" }, [
                       _c("input", {
@@ -101237,7 +101208,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(3),
+                    _vm._m(4),
                     _vm._v(" "),
                     _c(
                       "div",
@@ -101272,7 +101243,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "row form-group" }, [
-                    _vm._m(4),
+                    _vm._m(5),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-9 col-md-4" }, [
                       _c("input", {
@@ -101310,7 +101281,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(5),
+                    _vm._m(6),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-9 col-md-4" }, [
                       _c("input", {
@@ -101350,7 +101321,7 @@ var render = function() {
                   ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "row form-group" }, [
-                    _vm._m(6),
+                    _vm._m(7),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-9 col-md-4" }, [
                       _c("input", {
@@ -101384,7 +101355,7 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(7),
+                    _vm._m(8),
                     _vm._v(" "),
                     _c("div", { staticClass: "col-9 col-md-4" }, [
                       _c("input", {
@@ -101444,7 +101415,7 @@ var render = function() {
                   ])
                 ]),
                 _vm._v(" "),
-                _vm._m(8)
+                _vm._m(9)
               ])
             ]),
             _vm._v(" "),
@@ -101479,7 +101450,7 @@ var render = function() {
                                     attrs: { id: "datatable-fixed-header" }
                                   },
                                   [
-                                    _vm._m(9),
+                                    _vm._m(10),
                                     _vm._v(" "),
                                     _c(
                                       "tbody",
@@ -101535,6 +101506,7 @@ var render = function() {
                                                     modifiers: { number: true }
                                                   }
                                                 ],
+                                                staticClass: "form-control",
                                                 attrs: { type: "number" },
                                                 domProps: { value: nowpro.qty },
                                                 on: {
@@ -101747,9 +101719,9 @@ var render = function() {
                                           ])
                                         ]),
                                         _vm._v(" "),
-                                        _vm._m(10),
-                                        _vm._v(" "),
                                         _vm._m(11),
+                                        _vm._v(" "),
+                                        _vm._m(12),
                                         _vm._v(" "),
                                         _c("tr", [
                                           _c("td", { attrs: { colspan: "4" } }),
@@ -101830,6 +101802,18 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-3 col-md-3" }, [
+      _c(
+        "label",
+        { staticClass: "form-control-label", attrs: { for: "nombre" } },
+        [_vm._v("Fecha.")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-3 col-md-2" }, [
       _c(
         "label",
@@ -101845,8 +101829,8 @@ var staticRenderFns = [
     return _c("div", { staticClass: "col-3 col-md-2" }, [
       _c(
         "label",
-        { staticClass: "form-control-label", attrs: { for: "nombre" } },
-        [_vm._v("Fecha.")]
+        { staticClass: "form-control-label", attrs: { for: "mail" } },
+        [_vm._v("Correo Electrónico.")]
       )
     ])
   },
@@ -102633,6 +102617,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }, {
           title: 'Crear Cliente',
           action: '/clientes/create'
+        }]
+      }, {
+        action: 'description',
+        title: 'Factura',
+        items: [{
+          title: 'Listar Facturas',
+          action: '/clientes'
+        }, {
+          title: 'Crear Factura',
+          action: '/factura'
         }]
       }, {
         action: 'beenhere',

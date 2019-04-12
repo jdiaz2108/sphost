@@ -1,44 +1,46 @@
 <template>
     <div class="col-12">
 
-    <v-dialog v-model="dialog" scrollable v-if="clientes">
-      <v-card>
+<v-dialog v-model="dialog" scrollable v-if="clientes">
+<v-card>
 
-    <v-card-title>
-      Buscar Cliente
-      <v-spacer></v-spacer>
-      <v-text-field
-        v-model="search"
-        append-icon="search"
-        label="Buscar"
-        single-line
-        hide-details
-      ></v-text-field>
-    </v-card-title>
-    <v-data-table
-      :headers="headers"
-      :items="clientes"
-      :search="search"
-    >
-      <template v-slot:items="props">
-        <td>{{ props.item.nombre }}</td>
-        <td class="text-xs-right">{{ props.item.nit }}{{props}}</td>
-        <td class="text-xs-right">{{ props.item.direccion }}</td>
-        <td class="text-xs-right">{{ props.item.telefono }}</td>
-        <td class="text-xs-right">{{ props.item.ciudad }}</td>
-        <td class="text-xs-right">{{ props.item.correo }} <div class="btn btn-primary" @click="ClienteCreado(props.item)"><i class="fa fa-arrow-right"></i> Seleccionar{{props.index}}</div></td>
-      </template>
-      <v-alert v-slot:no-results :value="true" color="error" icon="warning">
-        Tu busqueda por "{{ search }}" no dio resultados.
-      </v-alert>
-    </v-data-table>
+<v-card-title>
+Buscar Cliente
+<v-spacer></v-spacer>
+<v-text-field
+v-model="search"
+append-icon="search"
+label="Buscar"
+single-line
+hide-details
+></v-text-field>
+</v-card-title>
+<v-data-table
+:headers="headers"
+:items="clientes"
+:search="search"
+>
+
+<template v-slot:items="props">
+<td>{{ props.item.nombre }}</td>
+<td class="text-xs-right">{{ props.item.nit }}</td>
+<td class="text-xs-right">{{ props.item.direccion }}</td>
+<td class="text-xs-right">{{ props.item.telefono }}</td>
+<td class="text-xs-right">{{ props.item.ciudad }}</td>
+<td class="text-xs-right">{{ props.item.correo }}</td>
+<td class="text-xs-right"><div class="btn btn-primary" @click="ClienteCreado(props.item)"><i class="fa fa-arrow-right"></i> Seleccionar</div></td>
+</template>
+<v-alert v-slot:no-results :value="true" color="error" icon="warning">
+Tu busqueda por "{{ search }}" no dio resultados.
+</v-alert>
+</v-data-table>
 
 
-        <v-card-actions>
-          <v-btn color="blue-grey lighten-4" @click="dialog = false"><i class="fa fa-times-circle mr-3"></i> Cancelar</v-btn>
-                  </v-card-actions>
-      </v-card>
-    </v-dialog>
+<v-card-actions>
+<v-btn color="blue-grey lighten-4" @click="dialog = false"><i class="fa fa-times-circle mr-3"></i> Cancelar</v-btn>
+</v-card-actions>
+</v-card>
+</v-dialog>
 
 
 
@@ -58,20 +60,18 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Nombre</th>
-                                    <th scope="col">Cantidad</th>
+                                    <th scope="col">Inventario</th>
                                     <th scope="col">Descripcion</th>
                                     <th scope="col">Valor Unitario</th>
-                                    <th scope="col">Total</th>
                                     <th scope="col">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="producto, key in objetossss">
                                     <td>{{ producto.nombre }}</td>
-                                    <td><input class="form-control" type="number" @capture="alertini(event)" v-model.number="producto.qty" min="1" @change="producto.total = producto.valor * producto.qty"></td>
+                                    <td>{{ producto.qty }}</td>
                                     <td><p>{{ producto.descripcion}}</p></td>
                                     <td>{{ producto.valor }}</td>
-                                    <td><input type="text" v-model="producto.total" disabled=""></td>
                                     <td><button class="btn btn-primary btn-xs" type="button" @click="addProducto(key, producto)"><i class="fa fa-plus"></i></button></td>
                                 </tr>
                             </tbody>
@@ -105,52 +105,50 @@
                                 
                                 <input type="hidden" name="_token" :value="csrf"> 
 
-                                <div class="row form-group">
+                                    <div class="row form-group">
+                                        <div class="col-3 col-md-3"><label for="nombre" class="form-control-label">Fecha.</label></div>
+                                         <div class="col-9 col-md-9">
+                                            <v-dialog
+                                            ref="dialog"
+                                            v-model="modal"
+                                            :return-value.sync="date"
+                                            persistent
+                                            lazy
+                                            full-width
+                                            dark
+                                            width="290px"
+                                            locale="es"
+                                            >
+                                                <template v-slot:activator="{ on }">
+                                                    <v-text-field
+                                                    label="Fecha actual"
+                                                    v-model="date"
+                                                    prepend-icon="event"
+                                                    readonly
+                                                    v-on="on"
+                                                    ></v-text-field>
+                                                </template>
+                                                <v-date-picker v-model="date" scrollable>
+                                                    <v-spacer></v-spacer>
+                                                    <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
+                                                    <v-btn flat color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
+                                                </v-date-picker>
+                                            </v-dialog>
+                                        </div>
+                                    </div>
 
-                                        <div class="col-3 col-md-2">
-                                            <label for="nombre" class="form-control-label">Nombre del Cliente.</label></div>
-                                         <div class="col-9 col-md-4">
+                                    <div class="row form-group">
+                                        <div class="col-3 col-md-2"><label for="nombre" class="form-control-label">Nombre del Cliente.</label></div>
+                                        <div class="col-9 col-md-4">
                                             <input type="text" id="nombre" v-model="cliente.nombre" class="form-control" placeholder="Nombre del Cliente.">
                                             <small class="form-text text-muted">Nombre del Cliente.</small>
                                         </div>
 
-
-
-                                        <div class="col-3 col-md-2">
-                                            <label for="nombre" class="form-control-label">Fecha.</label></div>
-                                         <div class="col-9 col-md-4">
-
-                                                  <v-dialog
-                                                    ref="dialog"
-                                                    v-model="modal"
-                                                    :return-value.sync="date"
-                                                    persistent
-                                                    lazy
-                                                    full-width
-                                                    dark
-                                                    width="290px"
-                                                    locale="es"
-                                                  >
-                                                    <template v-slot:activator="{ on }">
-                                                      <v-text-field
-                                                      label="Fecha actual"
-                                                        v-model="date"
-                                                        prepend-icon="event"
-                                                        readonly
-                                                        v-on="on"
-                                                      ></v-text-field>
-                                                    </template>
-                                                    <v-date-picker v-model="date" scrollable>
-                                                      <v-spacer></v-spacer>
-                                                      <v-btn flat color="primary" @click="modal = false">Cancel</v-btn>
-                                                      <v-btn flat color="primary" @click="$refs.dialog.save(date)">OK</v-btn>
-                                                    </v-date-picker>
-                                                  </v-dialog>
-
-
- 
+                                        <div class="col-3 col-md-2"><label for="mail" class="form-control-label">Correo Electrónico.</label></div>
+                                        <div class="col-9 col-md-4">
+                                            <input type="text" id="mail" v-model="cliente.correo" class="form-control" placeholder="Correo Electrónico.">
+                                            <small class="form-text text-muted">Correo Electrónico.</small>
                                         </div>
-
 
                                     </div>
 
@@ -259,7 +257,7 @@
                         <input type="hidden" :name="nowpro.id_producto" :value="nowpro">
                         <td><button class="btn btn-sm btn-danger btn-xs prod-'+productos[i].id+'" type="button" @click="delProducto(key)"><i class="fa fa-trash-o"></i></button></td>
                         <td>{{ nowpro.nombre }}</td>
-                        <td><input type="number" v-model.number="nowpro.qty" @change="nowpro.total = nowpro.valor * nowpro.qty; totals()"></td>
+                        <td><input type="number" class="form-control" v-model.number="nowpro.qty" @change="nowpro.total = nowpro.valor * nowpro.qty; totals()"></td>
                         <td>
                             <div class="form-group">
                                 <textarea class="form-control" v-model="nowpro.descripcion" rows="5" id="comment"></textarea>
@@ -337,6 +335,7 @@
                     { text: 'Direccion', align: 'right', value: 'direccion' },
                     { text: 'Telefono', align: 'right', value: 'telefono' },
                     { text: 'Ciudad', align: 'right', value: 'ciudad' },
+                    { text: 'Correo', align: 'right', value: 'correo' },
                     { text: 'Seleccion', align: 'right', value: 'seleccion' }
         ],
         subtotal: 0,
