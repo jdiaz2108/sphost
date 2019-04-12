@@ -137,33 +137,27 @@ Tu busqueda por "{{ search }}" no dio resultados.
                                         </div>
                                     </div>
 
-                                    <div class="row form-group">
-                                        <div class="col-3 col-md-2"><label for="nombre" class="form-control-label">Nombre del Cliente.</label></div>
-                                        <div class="col-9 col-md-4">
-                                            <input type="text" id="nombre" v-model="cliente.nombre" class="form-control" placeholder="Nombre del Cliente.">
-                                            <small class="form-text text-muted">Nombre del Cliente.</small>
+                                    <div class="row form-group d-flex align-center">
+                                        <div :class="htmls.labels"><label for="nombre" class="form-control-label">Nombre del Cliente:</label></div>
+                                        <div :class="htmls.inputs">
+                                            <input type="text" id="nombre" v-model="cliente.nombre" class="form-control">
                                         </div>
 
-                                        <div class="col-3 col-md-2"><label for="mail" class="form-control-label">Correo Electrónico.</label></div>
-                                        <div class="col-9 col-md-4">
-                                            <input type="text" id="mail" v-model="cliente.correo" class="form-control" placeholder="Correo Electrónico.">
-                                            <small class="form-text text-muted">Correo Electrónico.</small>
+                                        <div :class="htmls.labels"><label for="mail" class="form-control-label">Correo Electrónico.</label></div>
+                                        <div :class="htmls.inputs">
+                                            <input type="text" id="mail" v-model="cliente.correo" class="form-control">
                                         </div>
 
-                                    </div>
 
-                                    <div class="row form-group">
-
-                                        <div class="col-3 col-md-2">
+                                        <div :class="htmls.labels">
                                             <label for="nit" class="form-control-label">Numero Identificador:</label></div>
-                                         <div class="col-9 col-md-4">
-                                            <input type="text" name="nit" @keyup="ClienteCall(cliente.nit)" v-model="cliente.nit" class="form-control" placeholder="Nit o CC.">
-                                            <small class="form-text text-muted">Formato 999.999.999-9.</small>
+                                         <div :class="htmls.inputs">
+                                            <input type="text" name="nit" @keyup="ClienteCall(cliente.nit)" v-model="cliente.nit" class="form-control">
                                         </div>
 
 
-                                        <div class="col-3 col-md-2"><label class=" form-control-label">Nit o CC.</label></div>
-                                        <div class="col-9 col-md-4">
+                                        <div :class="htmls.labels"><label class=" form-control-label">Nit o CC.</label></div>
+                                        <div :class="htmls.inputs">
                                             <v-radio-group v-model="row" row>
                                               <v-radio label="Nit" value="radio-1"></v-radio>
                                               <v-radio label="CC" value="radio-2"></v-radio>
@@ -171,44 +165,29 @@ Tu busqueda por "{{ search }}" no dio resultados.
                                         </div>
 
 
-                                    </div>
-
-                        
-
-
-                                    <div class="row form-group">
-                                        <div class="col-3 col-md-2"><label for="telefono" class="form-control-label">Telefono - Celular:</label></div>
-                                         <div class="col-9 col-md-4">
-                                            <input type="text" id="telefono" v-model="cliente.telefono" class="form-control" placeholder="Telefono - Celular.">
-                                            <small class="form-text text-muted">Telefono o Celular del Cliente.</small>
+                                        <div :class="htmls.labels"><label for="telefono" class="form-control-label">Telefono - Celular:</label></div>
+                                         <div :class="htmls.inputs">
+                                            <input type="text" id="telefono" v-model="cliente.telefono" class="form-control">
                                         </div>
 
-                                        <div class="col-3 col-md-2">
+                                        <div :class="htmls.labels">
                                             <label for="direccion" class="form-control-label">Dirección:</label></div>
-                                         <div class="col-9 col-md-4">
-                                            <input type="text" id="direccion" v-model="cliente.direccion" class="form-control" placeholder="Direccion.">
-                                            <small class="form-text text-muted">Direccion del Cliente.</small>
-                                        </div>
-                                    </div>
-
-                                    <div class="row form-group">
-                                        <div class="col-3 col-md-2"><label for="ciudad" class="form-control-label">Ciudad:</label></div>
-                                         <div class="col-9 col-md-4">
-                                            <input type="text" id="ciudad" v-model="cliente.ciudad" class="form-control" placeholder="Ciudad.">
-                                            <small class="form-text text-muted">Ciudad ubicacion Cliente.</small>
+                                         <div :class="htmls.inputs">
+                                            <input type="text" id="direccion" v-model="cliente.direccion" class="form-control">
                                         </div>
 
-                                        <div class="col-3 col-md-2"><label for="encargado" class="form-control-label">Encargado:</label></div>
-                                         <div class="col-9 col-md-4">
-                                            <input type="text" v-model="cliente.encargado" class="form-control" placeholder="Encargado.">
-                                            <small class="form-text text-muted">Encargado.</small>
+                                        <div :class="htmls.labels"><label for="ciudad" class="form-control-label">Ciudad:</label></div>
+                                         <div :class="htmls.inputs">
+                                            <input type="text" id="ciudad" v-model="cliente.ciudad" class="form-control">
                                         </div>
-                                    </div>
 
+                                        <div :class="htmls.labels"><label for="encargado" class="form-control-label">Encargado:</label></div>
+                                         <div :class="htmls.inputs">
+                                            <input type="text" v-model="cliente.encargado" class="form-control">
+                                        </div>
 
-                                     <div class="row form-group">
-                                        <div class="col-3 col-md-3"></div>
-                                      <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                        <div class="py-2 col-3 col-md-3"></div>
+                                      <div class="py-2 col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
                                         <button v-if="newProducto.length > 0" type="submit" class="btn btn-lg btn-success">Crear</button>
                                       </div>
                                     </div>
@@ -328,6 +307,18 @@ Tu busqueda por "{{ search }}" no dio resultados.
     export default {
         data() {
             return {
+                htmls: {
+                    labels: {
+                        'py-2': true,
+                        'col-3': true,
+                        'col-md-2': true,         
+                    },
+                    inputs: {
+                        'py-2': true,
+                        'col-9': true,
+                        'col-md-4': true,
+                    }
+                },
                 search: '',
                 headers: [
                     { text: 'Nombre', align: 'left', value: 'nombre' },
