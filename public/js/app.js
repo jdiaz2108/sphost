@@ -100085,6 +100085,10 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(64)
+}
 var normalizeComponent = __webpack_require__(4)
 /* script */
 var __vue_script__ = __webpack_require__(51)
@@ -100093,7 +100097,7 @@ var __vue_template__ = __webpack_require__(52)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
@@ -100135,24 +100139,6 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuetify__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vuetify___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vuetify__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -100508,33 +100494,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   props: ['productos'],
   methods: {
-    ClienteCall: function ClienteCall(id) {
-      var _this = this;
-
-      this.cliente = {
-        nit: id
-      }, axios({
-        method: 'get',
-        url: 'clientes/' + id
-      }).then(function (response) {
-        return _this.cliente = response.data;
-      }).then(function (res) {
-        console.log(res); //window.location = "/factura"
-      }).catch(function (err) {
-        console.log(err);
-      });
+    formatPrice: function formatPrice(value) {
+      var val = (value / 1).toFixed(0).replace('.', ',');
+      return '$ ' + val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
     alertini: function alertini(vari) {
       console.log(vari);
     },
     AllClientes: function AllClientes(id) {
-      var _this2 = this;
+      var _this = this;
 
       axios({
         method: 'get',
-        url: 'clientes'
+        url: 'api/clientes'
       }).then(function (response) {
-        return _this2.clientes = response.data;
+        return _this.clientes = response.data.data;
       }).then(function (res) {
         console.log(res); //window.location = "/factura"
       }).catch(function (err) {
@@ -100542,25 +100516,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     PSend: function PSend() {
-      this.cliente.date = this.date;
-      axios({
-        method: 'post',
-        url: '/factura',
-        data: {
-          newProducto: this.newProducto,
-          clientes: this.cliente
-        }
-      }).then(function (res) {
-        console.log(res);
-        Swal({
-          title: 'Error!',
-          text: 'Do you want to continue',
-          type: 'error',
-          confirmButtonText: 'Cool'
-        }); //window.location = "/factura/"+ res.data.message
-      }).catch(function (err) {
-        console.log(err);
-      });
+      if ($.isEmptyObject(this.cliente)) {
+        this.alertSwal('error', 'Es necesario seleccionar un cliente');
+      } else {
+        this.cliente.date = this.date;
+        axios({
+          method: 'post',
+          url: 'api/factura',
+          data: {
+            newProducto: this.newProducto,
+            cliente: this.cliente
+          }
+        }).then(function (res) {
+          console.log(res);
+          this.alertSwal('success', 'Se ha generado una nueva factura'); //window.location = "/factura/"+ res.data.message
+        }).catch(function (err) {
+          console.log(err);
+        });
+      }
     },
     ClienteCreado: function ClienteCreado(id) {
       this.cliente = id;
@@ -100595,6 +100568,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }
 
       this.subtotal = s;
+    },
+    alertSwal: function alertSwal(title, alert) {
+      Swal({
+        title: alert,
+        type: title,
+        confirmButtonText: 'Ok'
+      });
     }
   },
   computed: {
@@ -100640,7 +100620,9 @@ var render = function() {
                   _c(
                     "v-card-title",
                     [
-                      _vm._v("\nBuscar Cliente\n"),
+                      _vm._v(
+                        "\n                Buscar Cliente\n                "
+                      ),
                       _c("v-spacer"),
                       _vm._v(" "),
                       _c("v-text-field", {
@@ -100737,9 +100719,9 @@ var render = function() {
                               fn: function() {
                                 return [
                                   _vm._v(
-                                    '\nTu busqueda por "' +
+                                    '\n                    Tu busqueda por "' +
                                       _vm._s(_vm.search) +
-                                      '" no dio resultados.\n'
+                                      '" no dio resultados.\n                '
                                   )
                                 ]
                               },
@@ -100748,7 +100730,7 @@ var render = function() {
                           ],
                           null,
                           false,
-                          1608625273
+                          1466746745
                         )
                       })
                     ],
@@ -100770,7 +100752,7 @@ var render = function() {
                         },
                         [
                           _c("i", { staticClass: "fa fa-times-circle mr-3" }),
-                          _vm._v(" Cancelar")
+                          _vm._v("\n                    Cancelar")
                         ]
                       )
                     ],
@@ -100913,7 +100895,7 @@ var render = function() {
                     },
                     [
                       _c("i", { staticClass: "fa fa-times-circle mr-3" }),
-                      _vm._v(" Cancelar")
+                      _vm._v("\n                    Cancelar")
                     ]
                   )
                 ],
@@ -101102,7 +101084,11 @@ var render = function() {
                             staticClass: "form-control-label",
                             attrs: { for: "nombre" }
                           },
-                          [_vm._v("Nombre del Cliente:")]
+                          [
+                            _vm._v(
+                              "Nombre del\n                                    Cliente:"
+                            )
+                          ]
                         )
                       ]),
                       _vm._v(" "),
@@ -101141,7 +101127,11 @@ var render = function() {
                             staticClass: "form-control-label",
                             attrs: { for: "mail" }
                           },
-                          [_vm._v("Correo Electrónico.")]
+                          [
+                            _vm._v(
+                              "Correo\n                                    Electrónico."
+                            )
+                          ]
                         )
                       ]),
                       _vm._v(" "),
@@ -101198,9 +101188,6 @@ var render = function() {
                           attrs: { type: "text", name: "nit" },
                           domProps: { value: _vm.cliente.nit },
                           on: {
-                            keyup: function($event) {
-                              return _vm.ClienteCall(_vm.cliente.nit)
-                            },
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
@@ -101226,20 +101213,20 @@ var render = function() {
                             {
                               attrs: { row: "" },
                               model: {
-                                value: _vm.row,
+                                value: _vm.cliente.ide,
                                 callback: function($$v) {
-                                  _vm.row = $$v
+                                  _vm.$set(_vm.cliente, "ide", $$v)
                                 },
-                                expression: "row"
+                                expression: "cliente.ide"
                               }
                             },
                             [
                               _c("v-radio", {
-                                attrs: { label: "Nit", value: "radio-1" }
+                                attrs: { label: "Nit", value: 0 }
                               }),
                               _vm._v(" "),
                               _c("v-radio", {
-                                attrs: { label: "CC", value: "radio-2" }
+                                attrs: { label: "CC", value: 1 }
                               })
                             ],
                             1
@@ -101255,7 +101242,11 @@ var render = function() {
                             staticClass: "form-control-label",
                             attrs: { for: "telefono" }
                           },
-                          [_vm._v("Telefono - Celular:")]
+                          [
+                            _vm._v(
+                              "Telefono -\n                                    Celular:"
+                            )
+                          ]
                         )
                       ]),
                       _vm._v(" "),
@@ -101426,385 +101417,264 @@ var render = function() {
                         ]
                       )
                     ]
-                  )
-                ]),
-                _vm._v(" "),
-                _vm._m(1)
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "container-fluid" }, [
-              _c("div", { staticClass: "row justify-content-center" }, [
-                _c("div", { staticClass: "col-12" }, [
-                  _c("input", {
-                    attrs: { type: "hidden", name: "newProducto" },
-                    domProps: { value: _vm.newProducto }
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "card card-default" }, [
-                    _c("div", { staticClass: "card-header" }, [
-                      _vm._v("Artículos")
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "card-body" }, [
-                      _c(
-                        "div",
-                        { staticClass: "col-md-12 col-sm-12 col-xs-12" },
-                        [
-                          _c("div", { staticClass: "x_panel" }, [
-                            _c(
-                              "div",
-                              { staticClass: "x_content table-responsive-md" },
-                              [
-                                _c(
-                                  "table",
-                                  {
-                                    staticClass:
-                                      "table table-striped table-bordered",
-                                    attrs: { id: "datatable-fixed-header" }
-                                  },
-                                  [
-                                    _vm._m(2),
-                                    _vm._v(" "),
-                                    _c(
-                                      "tbody",
-                                      [
-                                        _vm._l(_vm.newProducto, function(
-                                          nowpro,
-                                          key
-                                        ) {
-                                          return _c("tr", [
-                                            _c("input", {
-                                              attrs: {
-                                                type: "hidden",
-                                                name: nowpro.id_producto
-                                              },
-                                              domProps: { value: nowpro }
-                                            }),
-                                            _vm._v(" "),
-                                            _c("td", [
-                                              _c(
-                                                "button",
-                                                {
-                                                  staticClass:
-                                                    "btn btn-sm btn-danger btn-xs prod-'+productos[i].id+'",
-                                                  attrs: { type: "button" },
-                                                  on: {
-                                                    click: function($event) {
-                                                      return _vm.delProducto(
-                                                        key
-                                                      )
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _c("i", {
-                                                    staticClass: "fa fa-trash-o"
-                                                  })
-                                                ]
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c("td", [
-                                              _vm._v(_vm._s(nowpro.nombre))
-                                            ]),
-                                            _vm._v(" "),
-                                            _c("td", [
-                                              _c("input", {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model.number",
-                                                    value: nowpro.qty,
-                                                    expression: "nowpro.qty",
-                                                    modifiers: { number: true }
-                                                  }
-                                                ],
-                                                staticClass: "form-control",
-                                                attrs: { type: "number" },
-                                                domProps: { value: nowpro.qty },
-                                                on: {
-                                                  change: function($event) {
-                                                    nowpro.total =
-                                                      nowpro.valor * nowpro.qty
-                                                    _vm.totals()
-                                                  },
-                                                  input: function($event) {
-                                                    if (
-                                                      $event.target.composing
-                                                    ) {
-                                                      return
-                                                    }
-                                                    _vm.$set(
-                                                      nowpro,
-                                                      "qty",
-                                                      _vm._n(
-                                                        $event.target.value
-                                                      )
-                                                    )
-                                                  },
-                                                  blur: function($event) {
-                                                    return _vm.$forceUpdate()
-                                                  }
-                                                }
-                                              })
-                                            ]),
-                                            _vm._v(" "),
-                                            _c("td", [
-                                              _c(
-                                                "div",
-                                                { staticClass: "form-group" },
-                                                [
-                                                  _c("textarea", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          nowpro.descripcion,
-                                                        expression:
-                                                          "nowpro.descripcion"
-                                                      }
-                                                    ],
-                                                    staticClass: "form-control",
-                                                    attrs: {
-                                                      rows: "5",
-                                                      id: "comment"
-                                                    },
-                                                    domProps: {
-                                                      value: nowpro.descripcion
-                                                    },
-                                                    on: {
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          nowpro,
-                                                          "descripcion",
-                                                          $event.target.value
-                                                        )
-                                                      }
-                                                    }
-                                                  })
-                                                ]
-                                              )
-                                            ]),
-                                            _vm._v(" "),
-                                            _c("td", [
-                                              _c("input", {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model.number",
-                                                    value: nowpro.valor,
-                                                    expression: "nowpro.valor",
-                                                    modifiers: { number: true }
-                                                  }
-                                                ],
-                                                attrs: { type: "number" },
-                                                domProps: {
-                                                  value: nowpro.valor
-                                                },
-                                                on: {
-                                                  input: function($event) {
-                                                    if (
-                                                      $event.target.composing
-                                                    ) {
-                                                      return
-                                                    }
-                                                    _vm.$set(
-                                                      nowpro,
-                                                      "valor",
-                                                      _vm._n(
-                                                        $event.target.value
-                                                      )
-                                                    )
-                                                  },
-                                                  blur: function($event) {
-                                                    return _vm.$forceUpdate()
-                                                  }
-                                                }
-                                              })
-                                            ]),
-                                            _vm._v(" "),
-                                            _c("td", [
-                                              _c("input", {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model.number",
-                                                    value: nowpro.total,
-                                                    expression: "nowpro.total",
-                                                    modifiers: { number: true }
-                                                  }
-                                                ],
-                                                attrs: { type: "number" },
-                                                domProps: {
-                                                  value: nowpro.total
-                                                },
-                                                on: {
-                                                  input: function($event) {
-                                                    if (
-                                                      $event.target.composing
-                                                    ) {
-                                                      return
-                                                    }
-                                                    _vm.$set(
-                                                      nowpro,
-                                                      "total",
-                                                      _vm._n(
-                                                        $event.target.value
-                                                      )
-                                                    )
-                                                  },
-                                                  blur: function($event) {
-                                                    return _vm.$forceUpdate()
-                                                  }
-                                                }
-                                              })
-                                            ])
-                                          ])
-                                        }),
-                                        _vm._v(" "),
-                                        _c("tr", [
-                                          _c("td", [
-                                            _c(
-                                              "button",
-                                              {
-                                                staticClass:
-                                                  "btn btn-success btn-sm",
-                                                attrs: {
-                                                  type: "button",
-                                                  "data-toggle": "modal",
-                                                  "data-target":
-                                                    ".bd-example-modal-lg"
-                                                },
-                                                on: {
-                                                  click: function($event) {
-                                                    _vm.dialog2 = true
-                                                  }
-                                                }
-                                              },
-                                              [
-                                                _c("i", {
-                                                  staticClass: "fa fa-plus"
-                                                })
-                                              ]
-                                            )
-                                          ]),
-                                          _vm._v(" "),
-                                          _c("td", { attrs: { colspan: "5" } })
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("tr", [
-                                          _c("td", { attrs: { colspan: "4" } }),
-                                          _vm._v(" "),
-                                          _c("td", [_vm._v("Subtotal:")]),
-                                          _vm._v(" "),
-                                          _c("td", [
-                                            _c("input", {
-                                              directives: [
-                                                {
-                                                  name: "model",
-                                                  rawName: "v-model",
-                                                  value: _vm.subtotal,
-                                                  expression: "subtotal"
-                                                }
-                                              ],
-                                              attrs: {
-                                                type: "text",
-                                                disabled: ""
-                                              },
-                                              domProps: { value: _vm.subtotal },
-                                              on: {
-                                                input: function($event) {
-                                                  if ($event.target.composing) {
-                                                    return
-                                                  }
-                                                  _vm.subtotal =
-                                                    $event.target.value
-                                                }
-                                              }
-                                            })
-                                          ])
-                                        ]),
-                                        _vm._v(" "),
-                                        _vm._m(3),
-                                        _vm._v(" "),
-                                        _vm._m(4),
-                                        _vm._v(" "),
-                                        _c("tr", [
-                                          _c("td", { attrs: { colspan: "4" } }),
-                                          _vm._v(" "),
-                                          _c("td", [_vm._v("Total:")]),
-                                          _vm._v(" "),
-                                          _c("td", [
-                                            _c("input", {
-                                              directives: [
-                                                {
-                                                  name: "model",
-                                                  rawName: "v-model",
-                                                  value: _vm.total,
-                                                  expression: "total"
-                                                }
-                                              ],
-                                              attrs: {
-                                                type: "text",
-                                                disabled: ""
-                                              },
-                                              domProps: { value: _vm.total },
-                                              on: {
-                                                input: function($event) {
-                                                  if ($event.target.composing) {
-                                                    return
-                                                  }
-                                                  _vm.total =
-                                                    $event.target.value
-                                                }
-                                              }
-                                            })
-                                          ])
-                                        ])
-                                      ],
-                                      2
-                                    )
-                                  ]
-                                )
-                              ]
-                            )
-                          ])
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("hr")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-primary",
-                      attrs: { type: "button" },
-                      on: {
-                        click: function($event) {
-                          return _vm.AllClientes()
-                        }
-                      }
-                    },
-                    [_vm._v("clientes")]
                   ),
                   _vm._v(" "),
-                  _c("button", { attrs: { type: "submit" } }, [
-                    _vm._v("enviar")
+                  _c("div", { staticClass: "row p-3" }, [
+                    _c(
+                      "table",
+                      {
+                        staticClass: "table table-striped table-bordered",
+                        attrs: { id: "datatable-fixed-header" }
+                      },
+                      [
+                        _vm._m(1),
+                        _vm._v(" "),
+                        _c(
+                          "tbody",
+                          [
+                            _vm._l(_vm.newProducto, function(nowpro, key) {
+                              return _c("tr", [
+                                _c("input", {
+                                  attrs: {
+                                    type: "hidden",
+                                    name: nowpro.id_producto
+                                  },
+                                  domProps: { value: nowpro }
+                                }),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass:
+                                        "btn btn-sm btn-danger btn-xs prod-'+productos[i].id+'",
+                                      attrs: { type: "button" },
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.delProducto(key)
+                                        }
+                                      }
+                                    },
+                                    [_c("i", { staticClass: "fa fa-trash-o" })]
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model.number",
+                                        value: nowpro.nombre,
+                                        expression: "nowpro.nombre",
+                                        modifiers: { number: true }
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    domProps: { value: nowpro.nombre },
+                                    on: {
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          nowpro,
+                                          "nombre",
+                                          _vm._n($event.target.value)
+                                        )
+                                      },
+                                      blur: function($event) {
+                                        return _vm.$forceUpdate()
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model.number",
+                                        value: nowpro.qty,
+                                        expression: "nowpro.qty",
+                                        modifiers: { number: true }
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { type: "number", size: "5" },
+                                    domProps: { value: nowpro.qty },
+                                    on: {
+                                      change: function($event) {
+                                        nowpro.total = nowpro.valor * nowpro.qty
+                                        _vm.totals()
+                                      },
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          nowpro,
+                                          "qty",
+                                          _vm._n($event.target.value)
+                                        )
+                                      },
+                                      blur: function($event) {
+                                        return _vm.$forceUpdate()
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("div", { staticClass: "form-group" }, [
+                                    _c("textarea", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: nowpro.descripcion,
+                                          expression: "nowpro.descripcion"
+                                        }
+                                      ],
+                                      staticClass: "form-control",
+                                      attrs: { rows: "5", id: "comment" },
+                                      domProps: { value: nowpro.descripcion },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            nowpro,
+                                            "descripcion",
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    })
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model.number",
+                                        value: nowpro.valor,
+                                        expression: "nowpro.valor",
+                                        modifiers: { number: true }
+                                      }
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: { type: "number" },
+                                    domProps: { value: nowpro.valor },
+                                    on: {
+                                      change: function($event) {
+                                        nowpro.total = nowpro.valor * nowpro.qty
+                                        _vm.totals()
+                                      },
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          nowpro,
+                                          "valor",
+                                          _vm._n($event.target.value)
+                                        )
+                                      },
+                                      blur: function($event) {
+                                        return _vm.$forceUpdate()
+                                      }
+                                    }
+                                  })
+                                ]),
+                                _vm._v(" "),
+                                _c("td", [
+                                  _c("span", [
+                                    _vm._v(
+                                      _vm._s(_vm.formatPrice(nowpro.total))
+                                    )
+                                  ])
+                                ])
+                              ])
+                            }),
+                            _vm._v(" "),
+                            _c("tr", [
+                              _c("td", [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-success btn-sm",
+                                    attrs: {
+                                      type: "button",
+                                      "data-toggle": "modal",
+                                      "data-target": ".bd-example-modal-lg"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.dialog2 = true
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-plus" })]
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c("td", { attrs: { colspan: "5" } })
+                            ]),
+                            _vm._v(" "),
+                            _c("tr", [
+                              _c("td", { attrs: { colspan: "4" } }),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("Subtotal:")]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(_vm._s(_vm.formatPrice(_vm.subtotal)))
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _vm._m(2),
+                            _vm._v(" "),
+                            _vm._m(3),
+                            _vm._v(" "),
+                            _c("tr", [
+                              _c("td", { attrs: { colspan: "4" } }),
+                              _vm._v(" "),
+                              _c("td", [_vm._v("Total:")]),
+                              _vm._v(" "),
+                              _c("td", [
+                                _vm._v(_vm._s(_vm.formatPrice(_vm.total)))
+                              ])
+                            ])
+                          ],
+                          2
+                        )
+                      ]
+                    )
                   ])
-                ])
+                ]),
+                _vm._v(" "),
+                _vm._m(4)
               ])
             ])
-          ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-danger",
+              attrs: { type: "button" },
+              on: {
+                click: function($event) {
+                  return _vm.PSend()
+                }
+              }
+            },
+            [_vm._v("Enviar")]
+          )
         ]
       )
     ],
@@ -101822,14 +101692,6 @@ var staticRenderFns = [
         { staticClass: "form-control-label", attrs: { for: "nombre" } },
         [_vm._v("Fecha.")]
       )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-footer" }, [
-      _c("div", { staticClass: "p-3" })
     ])
   },
   function() {
@@ -101874,6 +101736,14 @@ var staticRenderFns = [
       _c("td", [_vm._v("Impuestos:")]),
       _vm._v(" "),
       _c("td")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-footer" }, [
+      _c("div", { staticClass: "p-3" })
     ])
   }
 ]
@@ -102528,6 +102398,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   created: function created() {
     this.drawerMDown();
   },
+  mounted: function mounted() {
+    window.location.pathname;
+
+    for (var i = 0; i < this.items.length; i++) {
+      console.log(this.items[i]);
+
+      for (var x = 0; x < this.items[i].items.length; x++) {
+        if (this.items[i].items[x].action == window.location.pathname) {
+          console.log(window.location.pathname);
+          console.log(this.items[i].items[x]);
+          this.items[i].active = true;
+          break;
+        } else {
+          this.items[i].active = false;
+        }
+      }
+    }
+  },
   data: function data() {
     return {
       items: [{
@@ -102545,7 +102433,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         title: 'Factura',
         items: [{
           title: 'Listar Facturas',
-          action: '/clientes'
+          action: '/factura'
         }, {
           title: 'Crear Factura',
           action: '/factura'
@@ -102812,6 +102700,392 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 60 */,
+/* 61 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+/* 62 */,
+/* 63 */,
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(65);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(66)("588c50e7", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-a5576062\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./createFactura.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-a5576062\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./createFactura.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(61)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n[type=number] {\r\n    width: 80px !important;\n}\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+  Modified by Evan You @yyx990803
+*/
+
+var hasDocument = typeof document !== 'undefined'
+
+if (typeof DEBUG !== 'undefined' && DEBUG) {
+  if (!hasDocument) {
+    throw new Error(
+    'vue-style-loader cannot be used in a non-browser environment. ' +
+    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
+  ) }
+}
+
+var listToStyles = __webpack_require__(67)
+
+/*
+type StyleObject = {
+  id: number;
+  parts: Array<StyleObjectPart>
+}
+
+type StyleObjectPart = {
+  css: string;
+  media: string;
+  sourceMap: ?string
+}
+*/
+
+var stylesInDom = {/*
+  [id: number]: {
+    id: number,
+    refs: number,
+    parts: Array<(obj?: StyleObjectPart) => void>
+  }
+*/}
+
+var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
+var singletonElement = null
+var singletonCounter = 0
+var isProduction = false
+var noop = function () {}
+var options = null
+var ssrIdKey = 'data-vue-ssr-id'
+
+// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+// tags it will allow on a page
+var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
+
+module.exports = function (parentId, list, _isProduction, _options) {
+  isProduction = _isProduction
+
+  options = _options || {}
+
+  var styles = listToStyles(parentId, list)
+  addStylesToDom(styles)
+
+  return function update (newList) {
+    var mayRemove = []
+    for (var i = 0; i < styles.length; i++) {
+      var item = styles[i]
+      var domStyle = stylesInDom[item.id]
+      domStyle.refs--
+      mayRemove.push(domStyle)
+    }
+    if (newList) {
+      styles = listToStyles(parentId, newList)
+      addStylesToDom(styles)
+    } else {
+      styles = []
+    }
+    for (var i = 0; i < mayRemove.length; i++) {
+      var domStyle = mayRemove[i]
+      if (domStyle.refs === 0) {
+        for (var j = 0; j < domStyle.parts.length; j++) {
+          domStyle.parts[j]()
+        }
+        delete stylesInDom[domStyle.id]
+      }
+    }
+  }
+}
+
+function addStylesToDom (styles /* Array<StyleObject> */) {
+  for (var i = 0; i < styles.length; i++) {
+    var item = styles[i]
+    var domStyle = stylesInDom[item.id]
+    if (domStyle) {
+      domStyle.refs++
+      for (var j = 0; j < domStyle.parts.length; j++) {
+        domStyle.parts[j](item.parts[j])
+      }
+      for (; j < item.parts.length; j++) {
+        domStyle.parts.push(addStyle(item.parts[j]))
+      }
+      if (domStyle.parts.length > item.parts.length) {
+        domStyle.parts.length = item.parts.length
+      }
+    } else {
+      var parts = []
+      for (var j = 0; j < item.parts.length; j++) {
+        parts.push(addStyle(item.parts[j]))
+      }
+      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
+    }
+  }
+}
+
+function createStyleElement () {
+  var styleElement = document.createElement('style')
+  styleElement.type = 'text/css'
+  head.appendChild(styleElement)
+  return styleElement
+}
+
+function addStyle (obj /* StyleObjectPart */) {
+  var update, remove
+  var styleElement = document.querySelector('style[' + ssrIdKey + '~="' + obj.id + '"]')
+
+  if (styleElement) {
+    if (isProduction) {
+      // has SSR styles and in production mode.
+      // simply do nothing.
+      return noop
+    } else {
+      // has SSR styles but in dev mode.
+      // for some reason Chrome can't handle source map in server-rendered
+      // style tags - source maps in <style> only works if the style tag is
+      // created and inserted dynamically. So we remove the server rendered
+      // styles and inject new ones.
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  if (isOldIE) {
+    // use singleton mode for IE9.
+    var styleIndex = singletonCounter++
+    styleElement = singletonElement || (singletonElement = createStyleElement())
+    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
+    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
+  } else {
+    // use multi-style-tag mode in all other cases
+    styleElement = createStyleElement()
+    update = applyToTag.bind(null, styleElement)
+    remove = function () {
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  update(obj)
+
+  return function updateStyle (newObj /* StyleObjectPart */) {
+    if (newObj) {
+      if (newObj.css === obj.css &&
+          newObj.media === obj.media &&
+          newObj.sourceMap === obj.sourceMap) {
+        return
+      }
+      update(obj = newObj)
+    } else {
+      remove()
+    }
+  }
+}
+
+var replaceText = (function () {
+  var textStore = []
+
+  return function (index, replacement) {
+    textStore[index] = replacement
+    return textStore.filter(Boolean).join('\n')
+  }
+})()
+
+function applyToSingletonTag (styleElement, index, remove, obj) {
+  var css = remove ? '' : obj.css
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = replaceText(index, css)
+  } else {
+    var cssNode = document.createTextNode(css)
+    var childNodes = styleElement.childNodes
+    if (childNodes[index]) styleElement.removeChild(childNodes[index])
+    if (childNodes.length) {
+      styleElement.insertBefore(cssNode, childNodes[index])
+    } else {
+      styleElement.appendChild(cssNode)
+    }
+  }
+}
+
+function applyToTag (styleElement, obj) {
+  var css = obj.css
+  var media = obj.media
+  var sourceMap = obj.sourceMap
+
+  if (media) {
+    styleElement.setAttribute('media', media)
+  }
+  if (options.ssrId) {
+    styleElement.setAttribute(ssrIdKey, obj.id)
+  }
+
+  if (sourceMap) {
+    // https://developer.chrome.com/devtools/docs/javascript-debugging
+    // this makes source maps inside style tags work properly in Chrome
+    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
+    // http://stackoverflow.com/a/26603875
+    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
+  }
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = css
+  } else {
+    while (styleElement.firstChild) {
+      styleElement.removeChild(styleElement.firstChild)
+    }
+    styleElement.appendChild(document.createTextNode(css))
+  }
+}
+
+
+/***/ }),
+/* 67 */
+/***/ (function(module, exports) {
+
+/**
+ * Translates the list format produced by css-loader into something
+ * easier to manipulate.
+ */
+module.exports = function listToStyles (parentId, list) {
+  var styles = []
+  var newStyles = {}
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i]
+    var id = item[0]
+    var css = item[1]
+    var media = item[2]
+    var sourceMap = item[3]
+    var part = {
+      id: parentId + ':' + i,
+      css: css,
+      media: media,
+      sourceMap: sourceMap
+    }
+    if (!newStyles[id]) {
+      styles.push(newStyles[id] = { id: id, parts: [part] })
+    } else {
+      newStyles[id].parts.push(part)
+    }
+  }
+  return styles
+}
+
 
 /***/ })
 /******/ ]);

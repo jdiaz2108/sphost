@@ -38,7 +38,7 @@ const app = new Vue({
     },
     created() {
    		this.isLoad = true;
-   		console.log('creada');
+		   console.log('creada');
     },
     mounted() {
    		this.isLoad = true;

@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Factura;
 
 use Illuminate\Http\Request;
-use App\Producto;
+use App\Http\Controllers\ApiController;
+
 use App\Factura;
 use App\Factura_Producto;
 
-class FacturaController extends Controller
+class FacturaController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +17,7 @@ class FacturaController extends Controller
      */
     public function index()
     {
-        $productos = Producto::all();
-        return view('app.factura.test', compact('productos'));
+        //
     }
 
     /**
@@ -38,7 +38,22 @@ class FacturaController extends Controller
      */
     public function store(Request $request)
     {
-//
+        
+        $productos = $request->get('newProducto');
+        $cliente = $request->get('cliente');
+
+        $factura = new Factura($cliente);
+        $factura->save();
+
+            foreach ($productos as $producto) {
+                $enFactura = new Factura_Producto($producto);
+                $enFactura->factura_id = $factura->id;
+                $enFactura->save();
+            }
+
+        return response()->json([
+            "message" => $factura->id
+        ], 200);
     }
 
     /**

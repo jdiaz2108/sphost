@@ -68,6 +68,22 @@
     created() {
             this.drawerMDown();
         },
+        mounted() {
+          window.location.pathname
+          for (let i = 0; i < this.items.length; i++) {
+            console.log(this.items[i]);
+            for (let x = 0; x < this.items[i].items.length; x++) {
+              if (this.items[i].items[x].action == window.location.pathname) {
+                console.log(window.location.pathname);
+                console.log(this.items[i].items[x]);
+                this.items[i].active = true;
+                break;
+              } else {
+                this.items[i].active = false;
+              }
+            }
+          }
+        },
       data: () => ({
         items: [
           {
@@ -85,7 +101,7 @@
             title: 'Factura',
             items: [
               { title: 'Listar Facturas',
-                action: '/clientes' },
+                action: '/factura' },
                 { title: 'Crear Factura',
                 action: '/factura' }
             ]

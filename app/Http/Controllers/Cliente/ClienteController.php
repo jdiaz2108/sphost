@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Cliente;
 
 use Illuminate\Http\Request;
-use App\Producto;
-use App\Factura;
-use App\Factura_Producto;
+use App\Http\Controllers\ApiController;
+use App\Cliente;
 
-class FacturaController extends Controller
+class ClienteController extends ApiController
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +15,8 @@ class FacturaController extends Controller
      */
     public function index()
     {
-        $productos = Producto::all();
-        return view('app.factura.test', compact('productos'));
+        $clientes = Cliente::all();
+        return $this->showAll($clientes);
     }
 
     /**
@@ -38,7 +37,7 @@ class FacturaController extends Controller
      */
     public function store(Request $request)
     {
-//
+        //
     }
 
     /**

@@ -16,11 +16,9 @@ class ClienteController extends Controller
     {
         $clientes = Cliente::all();
         if($request->ajax()){
-            return response()->json(
-                $clientes
-            , 200);
+            return response()->json($clientes, 200);
         } else {
-        return view('app.clientes.listar' ,compact('clientes'));
+            return view('app.clientes.listar' ,compact('clientes'));
         }
     }
 
