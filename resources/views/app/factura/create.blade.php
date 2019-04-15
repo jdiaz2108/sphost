@@ -1,6 +1,6 @@
 @extends('layouts.base')
 
-@section('title', 'Cliente Crear - ')
+@section('title', 'Cliente Factura - ')
 
 @section('content')
 

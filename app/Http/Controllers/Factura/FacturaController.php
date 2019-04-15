@@ -3,21 +3,28 @@
 namespace App\Http\Controllers\Factura;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\ApiController;
+use App\Http\Controllers\Controller;
 
+use App\Producto;
 use App\Factura;
 use App\Factura_Producto;
 
-class FacturaController extends ApiController
+class FacturaController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $facturas = Factura::with('productos')->get();
+        if($request->ajax()){
+            return $this->showAll($facturas);
+        } else {
+            return view('app.factura.listar' ,compact('facturas'));
+        }
+
     }
 
     /**
@@ -27,7 +34,8 @@ class FacturaController extends ApiController
      */
     public function create()
     {
-        //
+        $productos = Producto::all();
+        return view('app.factura.create', compact('productos'));
     }
 
     /**

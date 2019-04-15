@@ -15,6 +15,7 @@ class CreateFacturasTable extends Migration
     {
         Schema::create('facturas', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('valor')->nullable();
             $table->string('valor')->nullable();
             $table->string('nombre')->nullable();
             $table->string('encargado')->nullable();

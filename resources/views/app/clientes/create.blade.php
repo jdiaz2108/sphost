@@ -4,30 +4,6 @@
 
 @section('content')
 
-<div class="breadcrumbs">
-            <div class="breadcrumbs-inner">
-                <div class="row m-0">
-                    <div class="col-sm-4">
-                        <div class="page-header float-left">
-                            <div class="page-title">
-                                <h1>Clientes</h1>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-8">
-                        <div class="page-header float-right">
-                            <div class="page-title">
-                                <ol class="breadcrumb text-right">
-                                    <li><a href="#">Dashboard</a></li>
-                                    <li><a href="#">Forms</a></li>
-                                    <li class="active">Clientes</li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="content">
             <div class="animated fadeIn">
@@ -40,7 +16,7 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header">
-                                <strong>Basic Form</strong> Elements
+                                <strong>Crear Cliente</strong>
                             </div>
                             <div class="card-body card-block">
                                 {!! Form::open(['route' => 'clientes.store', 'method' => 'POST', 'files' => 'true' , 'class' => 'form-horizontal']) !!}                                  
@@ -48,7 +24,6 @@
                                         <div class="col col-md-3">{!! Form::label('nombre', 'Nombre del cliente:' , ['class' => 'form-control-label']) !!}</div>
                                          <div class="col-12 col-md-9">
                                             {!! Form::text('nombre', null , ['class' => 'form-control' , 'required' => 'required', 'placeholder' => 'Nombre del Cliente.']) !!}
-                                            <small class="form-text text-muted">Nombre del Cliente.</small>
                                         </div>
                                     </div>
 
@@ -69,40 +44,42 @@
                                     <div class="row form-group">
                                         <div class="col col-md-3">{!! Form::label('nit', 'Numero Identificador:' , ['class' => 'form-control-label']) !!}</div>
                                          <div class="col-12 col-md-9">
-                                            {!! Form::text('nit', null , ['class' => 'form-control' , 'required' => 'required', 'placeholder' => 'Nit o CC.']) !!}
-                                            <small class="form-text text-muted">Ingresar número Nit o CC.</small>
+                                            {!! Form::text('nit', null , ['class' => 'form-control' , 'required' => 'required']) !!}
                                         </div>
                                     </div>
 
                                     <div class="row form-group">
+                                            <div class="col col-md-3">{!! Form::label('correo', 'Correo Electrónico:' , ['class' => 'form-control-label']) !!}</div>
+                                             <div class="col-12 col-md-9">
+                                                {!! Form::text('correo', null , ['class' => 'form-control' , 'required' => 'required']) !!}
+                                            </div>
+                                        </div>
+
+                                    <div class="row form-group">
                                         <div class="col col-md-3">{!! Form::label('telefono', 'Telefono - Celular:' , ['class' => 'form-control-label']) !!}</div>
                                          <div class="col-12 col-md-9">
-                                            {!! Form::text('telefono', null , ['class' => 'form-control' , 'required' => 'required', 'placeholder' => 'Telefono - Celular.']) !!}
-                                            <small class="form-text text-muted">Telefono o Celular del Cliente.</small>
+                                            {!! Form::text('telefono', null , ['class' => 'form-control' , 'required' => 'required']) !!}
                                         </div>
                                     </div>
 
                                     <div class="row form-group">
                                         <div class="col col-md-3">{!! Form::label('direccion', 'Dirección:' , ['class' => 'form-control-label']) !!}</div>
                                          <div class="col-12 col-md-9">
-                                            {!! Form::text('direccion', null , ['class' => 'form-control' , 'required' => 'required', 'placeholder' => 'Direccion.']) !!}
-                                            <small class="form-text text-muted">Direccion del Cliente.</small>
+                                            {!! Form::text('direccion', null , ['class' => 'form-control' , 'required' => 'required']) !!}
                                         </div>
                                     </div>
 
                                     <div class="row form-group">
                                         <div class="col col-md-3">{!! Form::label('ciudad', 'Ciudad:' , ['class' => 'form-control-label']) !!}</div>
                                          <div class="col-12 col-md-9">
-                                            {!! Form::text('ciudad', null , ['class' => 'form-control' , 'required' => 'required', 'placeholder' => 'Ciudad.']) !!}
-                                            <small class="form-text text-muted">Ciudad ubicacion Cliente.</small>
+                                            {!! Form::text('ciudad', null , ['class' => 'form-control' , 'required' => 'required']) !!}
                                         </div>
                                     </div>
 
                                     <div class="row form-group">
                                         <div class="col col-md-3">{!! Form::label('encargado', 'Encargado:' , ['class' => 'form-control-label']) !!}</div>
                                          <div class="col-12 col-md-9">
-                                            {!! Form::text('encargado', null , ['class' => 'form-control' , 'required' => 'required', 'placeholder' => 'Encargado.']) !!}
-                                            <small class="form-text text-muted">Encargado.</small>
+                                            {!! Form::text('encargado', null , ['class' => 'form-control' , 'required' => 'required']) !!}
                                         </div>
                                     </div>
 

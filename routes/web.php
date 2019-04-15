@@ -24,7 +24,7 @@ Route::get('/clientes/{{nit}}', 'ClienteController@show');
 Route::delete('/clientes/{{nit}}', 'ClienteController@destroy');
 Route::resource('/clientes', 'ClienteController');
 
-Route::resource('/factura', 'FacturaController');
+Route::resource('/factura', 'Factura\FacturaController');
 
 });
 
