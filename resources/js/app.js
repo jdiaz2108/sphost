@@ -18,15 +18,13 @@ window.Vue = require('vue');
 
 Vue.component('create-factura', require('./components/facturacion/createFactura.vue'));
 
+Vue.component('vue-clientes', require('./components/clientes/clientes.vue'));
+
 Vue.component('l-navbar', require('./components/topbar.vue'));
 
 Vue.component('l-leftpanel', require('./components/leftpanel.vue'));
 
-Vue.component('passport-clients', require('./components/passport/Clients.vue'));
 
-Vue.component('passport-authorized-clients', require('./components/passport/AuthorizedClients.vue'));
-
-Vue.component('passport-personal-access-tokens', require('./components/passport/PersonalAccessTokens.vue'));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::resource('/clientes', 'Cliente\ClienteController', ['only' => ['index']]);
+Route::resource('/clientes', 'Cliente\ClienteController', ['only' => ['index', 'store']]);
 Route::resource('/factura', 'Factura\FacturaController', ['only' => ['index', 'store']]);
 
 Route::middleware('auth:api')->group(function() {

@@ -62,7 +62,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="producto, key in objetossss">
+                                    <tr v-for="producto, key in objetossss" v-bind="key">
                                         <td>{{ producto.nombre }}</td>
                                         <td>{{ producto.qty }}</td>
                                         <td>

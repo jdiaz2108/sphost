@@ -58,7 +58,7 @@
     $(document).ready( function () {
         $('#table_id').DataTable({
             "pagingType": "full_numbers",
-            "order": [[ 0, "desc" ]]
+            "order": [[ 1, "desc" ]]
         });
     } );
     </script>

@@ -99,6 +99,8 @@
                                 <div class="p-3"></div>
                             </div>
                         </div>
+
+                        <vue-clientes></vue-clientes>
                     </div>
 
 

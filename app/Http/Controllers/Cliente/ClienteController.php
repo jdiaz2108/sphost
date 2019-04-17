@@ -37,7 +37,12 @@ class ClienteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->get('cliente');
+
+        $cliente = new Cliente($data);
+        $cliente->save();
+        return response()->json(["message" => '$cliente'], 200);
+        // return redirect('clientes');
     }
 
     /**
