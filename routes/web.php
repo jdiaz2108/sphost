@@ -20,9 +20,7 @@ Route::get('/', function () {
 
 Route::post('/rayo', 'Factura\FacturaController@store');
 
-Route::get('/clientes/{{nit}}', 'ClienteController@show');
-Route::delete('/clientes/{{nit}}', 'ClienteController@destroy');
-Route::resource('/clientes', 'ClienteController');
+Route::resource('/clientes', 'Cliente\ClienteController');
 
 Route::resource('/factura', 'Factura\FacturaController');
 

@@ -7,7 +7,6 @@
             <div class="card mt-25 border-secondary">
                 <div class="card-header aqua-gradient text-center">
                     <img src="{{ asset('images/logointranet.jpg') }}" class="card-img-top shadow rounded flotting-45 mb-2 border-secondary border" alt="Card image cap">
-
                 </div>
 
                 <div class="card-body">

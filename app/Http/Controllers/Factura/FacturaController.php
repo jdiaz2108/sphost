@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Factura;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use App\Http\Requests\updateClienteRequest;
 use App\Producto;
 use App\Factura;
 use App\Factura_Producto;
+use App\Cliente;
 
 class FacturaController extends Controller
 {
@@ -35,7 +36,7 @@ class FacturaController extends Controller
     public function create()
     {
         $productos = Producto::all();
-        return view('app.factura.create', compact('productos'));
+        return view('app.factura.create', ['crudstatus' => 'create'], compact('productos'));
     }
 
     /**
@@ -44,21 +45,29 @@ class FacturaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Cliente $cliente)
     {
-        
-        $productos = $request->get('newProducto');
-        $cliente = $request->get('cliente');
+        // return $request;
+        $data = $request->all();
+        $productos = $request->newProducto;
+        // $cliente = $request->get('cliente')
+        if(!$request->slug) {
+            $data['slug'] = str_random(16);
+            $cliente = new Cliente($data);
+            $cliente->save();
+            $client = Cliente::whereSlug($cliente->slug)->first();
+        } else {
+            $client = Cliente::whereSlug($request->slug)->first();
+        }
 
-        $factura = new Factura($cliente);
+        $data['cliente_id'] = $client->id;
+        $factura = new Factura($data);
         $factura->save();
-
             foreach ($productos as $producto) {
                 $enFactura = new Factura_Producto($producto);
                 $enFactura->factura_id = $factura->id;
                 $enFactura->save();
             }
-
         return response()->json([
             "message" => $factura->id
         ], 200);
@@ -70,9 +79,14 @@ class FacturaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, Factura $factura)
     {
-        //
+        $productos = Producto::all();
+        if($request->ajax()){
+            return $this->showOne($factura);
+        } else {
+            return view('app.factura.create' , ['crudstatus' => 'show'], compact('productos'));
+        }
     }
 
     /**

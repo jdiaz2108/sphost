@@ -71,11 +71,11 @@
         mounted() {
           window.location.pathname
           for (let i = 0; i < this.items.length; i++) {
-            console.log(this.items[i]);
+            // console.log(this.items[i]);
             for (let x = 0; x < this.items[i].items.length; x++) {
               if (this.items[i].items[x].action == window.location.pathname) {
-                console.log(window.location.pathname);
-                console.log(this.items[i].items[x]);
+                // console.log(window.location.pathname);
+                // console.log(this.items[i].items[x]);
                 this.items[i].active = true;
                 break;
               } else {
@@ -103,7 +103,7 @@
               { title: 'Listar Facturas',
                 action: '/factura' },
                 { title: 'Crear Factura',
-                action: '/factura' }
+                action: '/factura/create' }
             ]
           },
           {

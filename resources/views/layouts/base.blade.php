@@ -104,16 +104,19 @@
         .pmk-gradient {
             background-image: linear-gradient(40deg, rgb(0, 106, 179), rgb(236, 177, 11)) !important;
         }
+        .moon-gradient {
+            background-image: linear-gradient(to right, rgb(15, 32, 39), rgb(32, 58, 67), rgb(44, 83, 100)) !important;
+        }
         .mt-25 {
             margin-top: 25px;
         }
         .flotting-25 {
             margin-top: -25px;
-            max-width: calc(100% - 50px);
+            /* max-width: calc(100% - 50px); */
         }
         .flotting-45 {
             margin-top: -45px;
-            max-width: calc(100% - 50px);
+            /* max-width: calc(100% - 50px); */
         }
 
     </style>

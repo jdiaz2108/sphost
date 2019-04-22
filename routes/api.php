@@ -13,8 +13,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::resource('/clientes', 'Cliente\ClienteController', ['only' => ['index', 'store']]);
-Route::resource('/factura', 'Factura\FacturaController', ['only' => ['index', 'store']]);
+Route::resource('/clientes', 'Cliente\ClienteController', ['only' => ['index', 'store', 'show', 'update']]);
+Route::post('factura/c/{id}', 'Factura\FacturaController@store');
+Route::resource('/factura', 'Factura\FacturaController', ['only' => ['index', 'store', 'show']]);
 
 Route::middleware('auth:api')->group(function() {
     Route::get('/user', function(Request $request) {
@@ -25,7 +26,7 @@ Route::middleware('auth:api')->group(function() {
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'AuthController@login');
-  
+
     Route::group(['middleware' => 'auth:api'], function() {
         Route::get('logout', 'AuthController@logout');
         Route::get('user', 'AuthController@user');

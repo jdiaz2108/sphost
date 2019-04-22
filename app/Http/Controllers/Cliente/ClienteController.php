@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Cliente;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\updateClienteRequest;
 use App\Cliente;
 
 class ClienteController extends Controller
@@ -13,10 +14,14 @@ class ClienteController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $clientes = Cliente::all();
-        return $this->showAll($clientes);
+        if($request->ajax()){
+            return $this->showAll($clientes);
+        } else {
+            return view('app.clientes.listar' ,compact('clientes'));
+        }
     }
 
     /**
@@ -26,7 +31,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        //
+        return view('app.clientes.cliente', ['crudstatus' => 'create']);
     }
 
     /**
@@ -35,13 +40,14 @@ class ClienteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(updateClienteRequest $request)
     {
-        $data = $request->get('cliente');
-
+        
+        $data = $request->all();
+        $data['slug'] = str_random(16);
         $cliente = new Cliente($data);
         $cliente->save();
-        return response()->json(["message" => '$cliente'], 200);
+        return $cliente->slug;
         // return redirect('clientes');
     }
 
@@ -51,9 +57,13 @@ class ClienteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, Cliente $cliente)
     {
-        //
+        if($request->ajax()){
+            return $this->showOne($cliente);
+        } else {
+            return view('app.clientes.cliente' , ['crudstatus' => 'show'] ,compact('cliente'));
+        }
     }
 
     /**
@@ -74,9 +84,12 @@ class ClienteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(updateClienteRequest $request, Cliente $cliente)
     {
-        //
+        $data = $request->all();
+        $cliente->update($data);
+        $cliente->save();
+        return $request;
     }
 
     /**
@@ -87,6 +100,7 @@ class ClienteController extends Controller
      */
     public function destroy($id)
     {
-        //
+                //$cliente->delete();
+                return back()->with();
     }
 }
