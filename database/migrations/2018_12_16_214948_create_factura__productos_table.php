@@ -18,9 +18,6 @@ class CreateFacturaProductosTable extends Migration
             $table->integer('factura_id')->nullable();
             $table->integer('producto_id')->nullable();
             $table->string('nombre')->nullable();
-            $table->string('image1')->nullable();
-            $table->string('image2')->nullable();
-            $table->string('image3')->nullable();
             $table->string('valor')->nullable();
             $table->text('descripcion')->nullable();
             $table->integer('destacado')->nullable();
