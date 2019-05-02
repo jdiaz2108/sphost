@@ -18,7 +18,9 @@ Route::get('/', function () {
 });
 
 
-Route::post('/rayo', 'Factura\FacturaController@store');
+
+
+Route::get('/seePdf', 'PdfFacturaController@index');
 
 Route::resource('/clientes', 'Cliente\ClienteController');
 

@@ -9,7 +9,6 @@
 
 
     <!-- Styles -->
-
 <style type="text/css" media="all">
 @page {
 	margin: 0px;
@@ -36,12 +35,12 @@ body {
 </head>
 @php
 $NoCuenta = 123;
-$HCuenta = 537;
+$HCuenta = 512;
 
-$VendidoEncargado = 157;
-$DirTelMail = 188;
+$VendidoEncargado = 153;
+$DirTelMail = 182;
 
-$YDatos = 552;
+$YDatos = 532;
 
 $YProducto = 245;
 
@@ -51,7 +50,7 @@ $YProducto = 245;
 <div>
 {{-- {{$data->productos}} --}}
 {{-- Numero Cuenta de Cobro --}}
-<img src="./images/BGcobro3.jpg" style=" position: absolute;" alt="">
+<img src="./images/BGcobro3.jpg"  style=" max-width: 100%; position: absolute;" alt="">
 <h1  class="conf" style="font-size:25px; left: 675px; top: {{$NoCuenta - 17}}px; color: #c80000">No. {{$data->id}}</h1>
 <h1  class="conf" style="font-size:25px; left: 675px; top: {{$NoCuenta + $HCuenta}}px; color: #c80000">No. {{$data->id}}</h1>
 
@@ -68,12 +67,12 @@ $YProducto = 245;
 <h1 class="conf" style="font-size:15px; left: 106px; top: {{$DirTelMail + $YDatos}}px;">{{$data->direccion}}</h1>
 
 {{-- Telefono --}}
-<h1 class="conf" style="font-size:15px; left: 375px; top: {{$DirTelMail}}px;">{{$data->telefono}}</h1>
-<h1 class="conf" style="font-size:15px; left: 375px; top: {{$DirTelMail + $YDatos}}px;">{{$data->telefono}}</h1>
+<h1 class="conf" style="font-size:15px; left: 365px; top: {{$DirTelMail}}px;">{{$data->telefono}}</h1>
+<h1 class="conf" style="font-size:15px; left: 365px; top: {{$DirTelMail + $YDatos}}px;">{{$data->telefono}}</h1>
 
 {{-- Mail --}}
-<h1 class="conf" style="font-size:15px; left: 583px; top: {{$DirTelMail}}px;">{{$data->correo}}</h1>
-<h1 class="conf" style="font-size:15px; left: 583px; top: {{$DirTelMail + $YDatos}}px;">{{$data->correo}}</h1>
+<h1 class="conf" style="font-size:15px; left: 553px; top: {{$DirTelMail}}px;">{{$data->correo}}</h1>
+<h1 class="conf" style="font-size:15px; left: 553px; top: {{$DirTelMail + $YDatos}}px;">{{$data->correo}}</h1>
 
 {{-- Productos --}}
 @foreach($data->productos as $producto)

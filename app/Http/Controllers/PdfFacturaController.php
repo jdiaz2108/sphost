@@ -14,7 +14,8 @@ class PdfFacturaController extends Controller
      */
     public function index()
     {
-        $data = Factura::find(15);
+        $data = Factura::find(37);
+        return view('facturas/pdf', compact('data'));
         $pdf = \PDF::loadView('pdf', compact('data'));
         return $pdf->stream('archivo.pdf');
     }
