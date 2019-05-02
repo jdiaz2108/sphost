@@ -45,9 +45,8 @@ class FacturaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Cliente $cliente)
+    public function store(Request $request)
     {
-        // return $request;
         $data = $request->all();
         $productos = $request->newProducto;
         // $cliente = $request->get('cliente')
@@ -81,9 +80,8 @@ class FacturaController extends Controller
      */
     public function show(Request $request, Factura $factura)
     {
-        $productos = Producto::all();
         if($request->ajax()){
-            return $this->showOne($factura);
+            return $this->showOne($factura->load('productos'));
         } else {
             return view('app.factura.create' , ['crudstatus' => 'show'], compact('productos'));
         }

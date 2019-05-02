@@ -17,7 +17,6 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->group(function() {
 Route::resource('/clientes', 'Cliente\ClienteController', ['only' => ['index', 'store', 'show', 'update']]);
 Route::resource('/products', 'Products\ProductsController', ['only' => ['index', 'store', 'show', 'update']]);
-Route::post('factura/c/{id}', 'Factura\FacturaController@store');
 Route::resource('/factura', 'Factura\FacturaController', ['only' => ['index', 'store', 'show']]);
     Route::get('/user', function(Request $request) {
         return $request->user();

@@ -2,7 +2,7 @@
 
 
   <v-toolbar
-     
+
       fixed
       clipped-left
       app
@@ -28,7 +28,7 @@
       </v-btn>
 
       <div class="text-xs-center">
-        
+
     <v-menu
       v-model="menu"
       :close-on-content-click="false"
