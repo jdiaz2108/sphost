@@ -30,17 +30,35 @@ body {
 
 }
 
+.fnt-25 {
+    font-size: 25px;
+}
+
+.fnt-15 {
+    font-size: 15px;
+}
+
+.l-553 {
+    left: 560px;
+}
+.l-365 {
+    left: 370px;
+}
+
+.l-110 {
+    left: 110px;
+}
 
 </style>
 </head>
 @php
 $NoCuenta = 123;
-$HCuenta = 512;
+$HCuenta = 537;
 
-$VendidoEncargado = 153;
-$DirTelMail = 182;
+$VendidoEncargado = 157;
+$DirTelMail = 188;
 
-$YDatos = 532;
+$YDatos = 552;
 
 $YProducto = 245;
 
@@ -50,29 +68,29 @@ $YProducto = 245;
 <div>
 {{-- {{$data->productos}} --}}
 {{-- Numero Cuenta de Cobro --}}
-<img src="./images/BGcobro3.jpg"  style=" max-width: 100%; position: absolute;" alt="">
-<h1  class="conf" style="font-size:25px; left: 675px; top: {{$NoCuenta - 17}}px; color: #c80000">No. {{$data->id}}</h1>
-<h1  class="conf" style="font-size:25px; left: 675px; top: {{$NoCuenta + $HCuenta}}px; color: #c80000">No. {{$data->id}}</h1>
+<img src="./images/BGcobro3.jpg"  style=" max-width: 100%; width: auto; position: absolute;" alt="">
+<h1  class="conf fnt-25" style="left: 675px; top: {{$NoCuenta - 17}}px; color: #c80000">No. {{$data->id}}</h1>
+<h1  class="conf fnt-25" style="left: 675px; top: {{$NoCuenta + $HCuenta}}px; color: #c80000">No. {{$data->id}}</h1>
 
 {{-- Vendido a: --}}
-<h1 class="conf" style="font-size:15px; left: 110px; top: {{$VendidoEncargado}}px;">{{$data->nombre}}</h1>
-<h1 class="conf" style="font-size:15px; left: 110px; top: {{$VendidoEncargado + $YDatos}}px;">{{$data->nombre}}</h1>
+<h1 class="conf fnt-15 l-110" style="top: {{$VendidoEncargado}}px;">{{$data->nombre}}</h1>
+<h1 class="conf fnt-15 l-110" style="top: {{$VendidoEncargado + $YDatos}}px;">{{$data->nombre}}</h1>
 
 {{-- Encargado: --}}
-<h1 class="conf" style="font-size:15px; right: 50px; top: {{$VendidoEncargado}}px;">{{$data->nit}}</h1>
-<h1 class="conf" style="font-size:15px; right: 50px; top: {{$VendidoEncargado + $YDatos}}px;">{{$data->nit}}</h1>
+<h1 class="conf fnt-15" style="right: 50px; top: {{$VendidoEncargado}}px;">{{$data->nit}}</h1>
+<h1 class="conf fnt-15" style="right: 50px; top: {{$VendidoEncargado + $YDatos}}px;">{{$data->nit}}</h1>
 
 {{-- Direccion --}}
-<h1 class="conf" style="font-size:15px; left: 106px; top: {{$DirTelMail}}px;">{{$data->direccion}}</h1>
-<h1 class="conf" style="font-size:15px; left: 106px; top: {{$DirTelMail + $YDatos}}px;">{{$data->direccion}}</h1>
+<h1 class="conf fnt-15" style="left: 106px; top: {{$DirTelMail}}px;">{{$data->direccion}}</h1>
+<h1 class="conf fnt-15" style="left: 106px; top: {{$DirTelMail + $YDatos}}px;">{{$data->direccion}}</h1>
 
 {{-- Telefono --}}
-<h1 class="conf" style="font-size:15px; left: 365px; top: {{$DirTelMail}}px;">{{$data->telefono}}</h1>
-<h1 class="conf" style="font-size:15px; left: 365px; top: {{$DirTelMail + $YDatos}}px;">{{$data->telefono}}</h1>
+<h1 class="conf fnt-15 l-365" style="top: {{$DirTelMail}}px;">{{$data->telefono}}</h1>
+<h1 class="conf fnt-15 l-365" style="top: {{$DirTelMail + $YDatos}}px;">{{$data->telefono}}</h1>
 
 {{-- Mail --}}
-<h1 class="conf" style="font-size:15px; left: 553px; top: {{$DirTelMail}}px;">{{$data->correo}}</h1>
-<h1 class="conf" style="font-size:15px; left: 553px; top: {{$DirTelMail + $YDatos}}px;">{{$data->correo}}</h1>
+<h1 class="conf fnt-15 l-553" style="top: {{$DirTelMail}}px;">{{$data->correo}}</h1>
+<h1 class="conf fnt-15 l-553" style="top: {{$DirTelMail + $YDatos}}px;">{{$data->correo}}</h1>
 
 {{-- Productos --}}
 @foreach($data->productos as $producto)

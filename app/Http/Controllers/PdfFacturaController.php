@@ -16,7 +16,7 @@ class PdfFacturaController extends Controller
     {
         $data = Factura::find(37);
         return view('facturas/pdf', compact('data'));
-        $pdf = \PDF::loadView('pdf', compact('data'));
+        $pdf = \PDF::loadView('pdf', compact('data'))->setPaper('a4', 'landscape');
         return $pdf->stream('archivo.pdf');
     }
 
@@ -50,7 +50,7 @@ class PdfFacturaController extends Controller
     public function show($id)
     {
         $data = Factura::find($id);
-        $pdf = \PDF::loadView('facturas/pdf', compact('data'));
+        $pdf = \PDF::loadView('facturas/pdf', compact('data'))->setPaper('letter');
         return $pdf->stream('archivo.pdf');
     }
 
