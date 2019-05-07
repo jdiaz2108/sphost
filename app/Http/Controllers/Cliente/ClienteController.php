@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Cliente;
 
 use Illuminate\Http\Request;
+use App\Events\SendEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\updateClienteRequest;
 use App\Cliente;
@@ -47,6 +48,7 @@ class ClienteController extends Controller
         $data['slug'] = str_random(16);
         $cliente = new Cliente($data);
         $cliente->save();
+        Broadcast(new SendEvent($cliente));
         return $cliente->slug;
         // return redirect('clientes');
     }
