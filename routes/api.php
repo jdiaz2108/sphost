@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->group(function() {
 
+Route::get('/factura/last', 'Factura\FacturaController@lastNumber');
 Route::resource('/users', 'User\UserController', ['only' => ['index', 'store', 'show', 'update']]);
 Route::resource('/clientes', 'Cliente\ClienteController', ['only' => ['index', 'store', 'show', 'update']]);
 Route::resource('/products', 'Products\ProductsController', ['only' => ['index', 'store', 'show', 'update']]);

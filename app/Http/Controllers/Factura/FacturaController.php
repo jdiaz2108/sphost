@@ -9,6 +9,7 @@ use App\Producto;
 use App\Factura;
 use App\Factura_Producto;
 use App\Cliente;
+use Auth;
 
 class FacturaController extends Controller
 {
@@ -47,6 +48,8 @@ class FacturaController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user(); // Se recopila la información de usuario
+
         $data = $request->all();
         $productos = $request->newProducto;
         // $cliente = $request->get('cliente')
@@ -58,7 +61,7 @@ class FacturaController extends Controller
         } else {
             $client = Cliente::whereSlug($request->slug)->first();
         }
-
+        $data['user_id'] = $user->id;
         $data['cliente_id'] = $client->id;
         $factura = new Factura($data);
         $factura->save();
@@ -119,5 +122,12 @@ class FacturaController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function lastNumber()
+    {
+        $factura = Factura::get()->last();
+        $facturaID = $factura->id;
+        return response()->json($facturaID + 1, 200);
     }
 }
