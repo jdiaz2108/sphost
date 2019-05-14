@@ -32,11 +32,10 @@ body {
 </style>
 </head>
 @php
-$NoCuenta = 123;
-$HCuenta = 537;
+$NoCuenta = 102;
 $VendidoEncargado = 157;
-$DirTelMail = 188;
-$YDatos = 552;
+$DirTelMail = 183;
+$YDatos = 532;
 $YProducto = 245;
 @endphp
 <body>
@@ -44,8 +43,12 @@ $YProducto = 245;
 {{-- {{$data->productos}} --}}
 {{-- Numero Cuenta de Cobro --}}
 <img src="./images/BGcobro3.jpg" style=" max-width: 100%; position: absolute;" alt="">
-<h1  class="conf" style="font-size:25px; left: 675px; top: {{$NoCuenta - 17}}px; color: #c80000">No. {{$data->id}}</h1>
-<h1  class="conf" style="font-size:25px; left: 675px; top: {{$NoCuenta + $HCuenta}}px; color: #c80000">No. {{$data->id}}</h1>
+<h1  class="conf" style="font-size:25px; left: 650px; top: {{$NoCuenta}}px; color: #c80000">No. {{$data->id}}</h1>
+<h1  class="conf" style="font-size:25px; left: 650px; top: {{$NoCuenta + $YDatos}}px; color: #c80000">No. {{$data->id}}</h1>
+
+{{-- Date a: --}}
+<h1 class="conf" style="font-size:20px; left: 420px; top: {{$NoCuenta + 3}}px;">{{$data->date}}</h1>
+<h1 class="conf" style="font-size:20px; left: 420px; top: {{$NoCuenta + $YDatos + 3}}px;">{{$data->date}}</h1>
 
 {{-- Vendido a: --}}
 <h1 class="conf" style="font-size:15px; left: 110px; top: {{$VendidoEncargado}}px;">{{$data->nombre}}</h1>
@@ -60,12 +63,12 @@ $YProducto = 245;
 <h1 class="conf" style="font-size:15px; left: 106px; top: {{$DirTelMail + $YDatos}}px;">{{$data->direccion}}</h1>
 
 {{-- Telefono --}}
-<h1 class="conf" style="font-size:15px; left: 375px; top: {{$DirTelMail}}px;">{{$data->telefono}}</h1>
-<h1 class="conf" style="font-size:15px; left: 375px; top: {{$DirTelMail + $YDatos}}px;">{{$data->telefono}}</h1>
+<h1 class="conf" style="font-size:15px; left: 355px; top: {{$DirTelMail}}px;">{{$data->telefono}}</h1>
+<h1 class="conf" style="font-size:15px; left: 355px; top: {{$DirTelMail + $YDatos}}px;">{{$data->telefono}}</h1>
 
 {{-- Mail --}}
-<h1 class="conf" style="font-size:15px; left: 583px; top: {{$DirTelMail}}px;">{{$data->correo}}</h1>
-<h1 class="conf" style="font-size:15px; left: 583px; top: {{$DirTelMail + $YDatos}}px;">{{$data->correo}}</h1>
+<h1 class="conf" style="font-size:15px; left: 540px; top: {{$DirTelMail}}px;">{{$data->correo}}</h1>
+<h1 class="conf" style="font-size:15px; left: 540px; top: {{$DirTelMail + $YDatos}}px;">{{$data->correo}}</h1>
 
 {{-- Productos --}}
 @foreach($data->productos as $producto)
