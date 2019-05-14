@@ -9,6 +9,7 @@
 
 
     <!-- Styles -->
+
 <style type="text/css" media="all">
 @page {
 	margin: 0px;
@@ -18,103 +19,74 @@
 	position: absolute;
 	font-weight: lighter;
 }
-
-.fnt-25 {
-    font-size: 25px;
+body {
+	background:
+    /* url('/images/BGcobro2.jpg')*/    /* image */
+     center center / 100px 100px /* position / size */
+     no-repeat                /* repeat */
+     relative                    /* attachment */
+     padding-box              /* origin */
+     content-box              /* clip */
+     white;                     /* color */
 }
-
-.fnt-15 {
-    font-size: 15px;
-}
-
-.l-553 {
-    left: 140mm;
-}
-.l-365 {
-    left: 95mm;
-}
-
-.l-vyd {
-    left: 33mm;
-}
-
-.img-pdf:before {
-    content: '';
-    background-image: url('./images/BGcobro3.jpg');
-    width: 100%;
-    height: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-    transform: scale(0.9);
-    position: absolute;
-    top: -10mm;
-    left: 0;
-    padding: 10mm 0;
-
-}
-
-.img-pdf {
-    position: relative;
-}
-
 </style>
 </head>
 @php
-$NoCuenta = 31;
-$HCuenta = 132;
-
-$VendidoEncargado = 43;
-$DirTelMail = 50.5;
-
-$YDatos = 132;
-
-$YProducto = 64;
-
-
+$NoCuenta = 123;
+$HCuenta = 537;
+$VendidoEncargado = 157;
+$DirTelMail = 188;
+$YDatos = 552;
+$YProducto = 245;
 @endphp
-<body class="img-pdf">
-    <h1  class="conf fnt-25" style="left: 170mm; top: {{$NoCuenta + $HCuenta}}mm; color: #c80000">No. {{$data->id}}</h1>
-    <h1  class="conf fnt-25" style="left: 170mm; top: {{$NoCuenta}}mm; color: #c80000">No. {{$data->id}}</h1>
-    
-    {{-- Vendido a: --}}
-    <h1 class="conf fnt-15 l-vyd" style="top: {{$VendidoEncargado}}mm;">{{$data->nombre}}</h1>
-    <h1 class="conf fnt-15 l-vyd" style="top: {{$VendidoEncargado + $YDatos}}mm;">{{$data->nombre}}</h1>
-    
-    {{-- Encargado: --}}
-    <h1 class="conf fnt-15" style="left: 165mm; top: {{$VendidoEncargado}}mm;">{{$data->nit}}</h1>
-    <h1 class="conf fnt-15" style="left: 165mm; top: {{$VendidoEncargado + $YDatos}}mm;">{{$data->nit}}</h1>
-    
-    {{-- Direccion --}}
-    <h1 class="conf fnt-15 l-vyd" style="top: {{$DirTelMail}}mm;">{{$data->direccion}}</h1>
-    <h1 class="conf fnt-15 l-vyd" style="top: {{$DirTelMail + $YDatos}}mm;">{{$data->direccion}}</h1>
-    
-    {{-- Telefono --}}
-    <h1 class="conf fnt-15 l-365" style="top: {{$DirTelMail}}mm;">{{$data->telefono}}</h1>
-    <h1 class="conf fnt-15 l-365" style="top: {{$DirTelMail + $YDatos}}mm;">{{$data->telefono}}</h1>
-    
-    {{-- Mail --}}
-    <h1 class="conf fnt-15 l-553" style="top: {{$DirTelMail}}mm;">{{$data->correo}}</h1>
-    <h1 class="conf fnt-15 l-553" style="top: {{$DirTelMail + $YDatos}}mm;">{{$data->correo}}</h1>
-    
-    {{-- Productos --}}
-    @foreach($data->productos as $producto)
-    <h1 class="conf fnt-15" style="left: 20mm; top: {{$YProducto}}mm;">{{$producto->qty}}</h1>
-    <h1 class="conf fnt-15" style="left: 30mm; top: {{$YProducto}}mm; /*border-style: solid;*/ width: 530mm">{{$producto->descripcion}}</h1>
-    <h1 class="conf fnt-15" style="left: 150mm; top: {{$YProducto}}mm;">$ {{$producto->valor}}</h1>
-    <h1 class="conf fnt-15" style="left: 170mm; top: {{$YProducto}}mm;">$ {{$producto->qty * $producto->valor}}</h1>
-    @php
-    if (strlen($producto->descripcion) <= 76) {
-        $YProducto = $YProducto + 25;
-    } elseif (strlen($producto->descripcion) <= 155) {
-        $YProducto = $YProducto + 100;
-    } elseif (strlen($producto->descripcion) <= 228) {
-        $YProducto = $YProducto + 90;
-    } elseif (strlen($producto->descripcion) <= 300) {
-        $YProducto = $YProducto + 62;
-    }
-    @endphp
-    
-    
-    @endforeach
+<body>
+<div>
+{{-- {{$data->productos}} --}}
+{{-- Numero Cuenta de Cobro --}}
+<img src="./images/BGcobro3.jpg" style=" max-width: 100%; position: absolute;" alt="">
+<h1  class="conf" style="font-size:25px; left: 675px; top: {{$NoCuenta - 17}}px; color: #c80000">No. {{$data->id}}</h1>
+<h1  class="conf" style="font-size:25px; left: 675px; top: {{$NoCuenta + $HCuenta}}px; color: #c80000">No. {{$data->id}}</h1>
+
+{{-- Vendido a: --}}
+<h1 class="conf" style="font-size:15px; left: 110px; top: {{$VendidoEncargado}}px;">{{$data->nombre}}</h1>
+<h1 class="conf" style="font-size:15px; left: 110px; top: {{$VendidoEncargado + $YDatos}}px;">{{$data->nombre}}</h1>
+
+{{-- Encargado: --}}
+<h1 class="conf" style="font-size:15px; right: 50px; top: {{$VendidoEncargado}}px;">{{$data->nit}}</h1>
+<h1 class="conf" style="font-size:15px; right: 50px; top: {{$VendidoEncargado + $YDatos}}px;">{{$data->nit}}</h1>
+
+{{-- Direccion --}}
+<h1 class="conf" style="font-size:15px; left: 106px; top: {{$DirTelMail}}px;">{{$data->direccion}}</h1>
+<h1 class="conf" style="font-size:15px; left: 106px; top: {{$DirTelMail + $YDatos}}px;">{{$data->direccion}}</h1>
+
+{{-- Telefono --}}
+<h1 class="conf" style="font-size:15px; left: 375px; top: {{$DirTelMail}}px;">{{$data->telefono}}</h1>
+<h1 class="conf" style="font-size:15px; left: 375px; top: {{$DirTelMail + $YDatos}}px;">{{$data->telefono}}</h1>
+
+{{-- Mail --}}
+<h1 class="conf" style="font-size:15px; left: 583px; top: {{$DirTelMail}}px;">{{$data->correo}}</h1>
+<h1 class="conf" style="font-size:15px; left: 583px; top: {{$DirTelMail + $YDatos}}px;">{{$data->correo}}</h1>
+
+{{-- Productos --}}
+@foreach($data->productos as $producto)
+<h1 class="conf" style="font-size:15px; left: 50px; top: {{$YProducto}}px;">{{$producto->qty}}</h1>
+<h1 class="conf" style="font-size: 15px; left: 90px; top: {{$YProducto}}px; /*border-style: solid;*/ width: 530px">{{$producto->descripcion}}</h1>
+<h1 class="conf" style="font-size:15px; right: 150px; top: {{$YProducto}}px;">$ {{$producto->valor}}</h1>
+<h1 class="conf" style="font-size:15px; right: 50px; top: {{$YProducto}}px;">$ {{$producto->qty * $producto->valor}}</h1>
+@php
+if (strlen($producto->descripcion) <= 76) {
+	$YProducto = $YProducto + 25;
+} elseif (strlen($producto->descripcion) <= 155) {
+	$YProducto = $YProducto + 100;
+} elseif (strlen($producto->descripcion) <= 228) {
+	$YProducto = $YProducto + 90;
+} elseif (strlen($producto->descripcion) <= 300) {
+	$YProducto = $YProducto + 62;
+}
+@endphp
+
+
+@endforeach
+</div>
 </body>
 </html>

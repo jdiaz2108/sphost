@@ -15,8 +15,8 @@ class PdfFacturaController extends Controller
     public function index()
     {
         $data = Factura::find(37);
-        return view('facturas/pdf', compact('data'));
-        $pdf = \PDF::loadView('pdf', compact('data'))->setPaper('a4', 'landscape');
+       return view('facturas/pdf', compact('data'));
+        $pdf = \PDF::loadView('facturas/pdf', compact('data'))->setPaper('letter');
         return $pdf->stream('archivo.pdf');
     }
 

@@ -11,7 +11,7 @@
 |
 */
 Route::group(['middleware' => ['auth']], function () {
-	Route::resource('/f/pdf', 'PdfFacturaController');
+	Route::resource('/f', 'PdfFacturaController');
 
 Route::get('/', function () {
     return view('app.index');

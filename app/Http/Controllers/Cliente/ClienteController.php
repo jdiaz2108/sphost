@@ -43,7 +43,7 @@ class ClienteController extends Controller
      */
     public function store(updateClienteRequest $request)
     {
-        
+
         $data = $request->all();
         $data['slug'] = str_random(16);
         $cliente = new Cliente($data);
@@ -66,17 +66,6 @@ class ClienteController extends Controller
         } else {
             return view('app.clientes.cliente' , ['crudstatus' => 'show'] ,compact('cliente'));
         }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
