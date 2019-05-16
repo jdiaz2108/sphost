@@ -21,8 +21,7 @@ class AuthController extends Controller
             'level' => 118,
         ]);
         $user->save();
-        return response()->json([
-            'message' => 'Usuario Creado Correctamente!'], 201);
+        return response()->json($user->slug, 201);
     }
     public function login(Request $request)
     {
