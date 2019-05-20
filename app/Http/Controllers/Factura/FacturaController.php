@@ -51,6 +51,7 @@ class FacturaController extends Controller
         $user = Auth::user(); // Se recopila la información de usuario
 
         $data = $request->all();
+
         $productos = $request->newProducto;
         // $cliente = $request->get('cliente')
         if(!$request->slug) {
@@ -63,6 +64,7 @@ class FacturaController extends Controller
         }
         $data['user_id'] = $user->id;
         $data['cliente_id'] = $client->id;
+        $data['number'] = $data['facturaNum'];
         $factura = new Factura($data);
         $factura->save();
             foreach ($productos as $producto) {
@@ -81,8 +83,10 @@ class FacturaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, Factura $factura)
+    public function show(Request $request, $id)
     {
+        return Factura::whereNumber($id)->get()->last();
+
         if($request->ajax()){
             return $this->showOne($factura->load('productos'));
         } else {
@@ -126,8 +130,8 @@ class FacturaController extends Controller
 
     public function lastNumber()
     {
-        $factura = Factura::get()->last();
-        $facturaID = $factura->id;
-        return response()->json($facturaID + 1, 200);
+        $factura = Factura::get()->max('number');
+        return response()->json($factura + 1, 200);
+        return $factura;
     }
 }
