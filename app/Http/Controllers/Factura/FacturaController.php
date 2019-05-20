@@ -73,7 +73,7 @@ class FacturaController extends Controller
                 $enFactura->save();
             }
         return response()->json([
-            "message" => $factura->id
+            "message" => $factura->number
         ], 200);
     }
 
@@ -85,10 +85,10 @@ class FacturaController extends Controller
      */
     public function show(Request $request, $id)
     {
-        return Factura::whereNumber($id)->get()->last();
+        $factura = Factura::whereNumber($id)->get()->last()->load('productos')->load('cliente:id,slug');
 
         if($request->ajax()){
-            return $this->showOne($factura->load('productos'));
+            return $this->showOne($factura);
         } else {
             return view('app.factura.create' , ['crudstatus' => 'show'], compact('productos'));
         }
